@@ -1,0 +1,21 @@
+export { default as image1 } from "./image-1.png";
+export { default as image2 } from "./image-2.png";
+export { default as image3 } from "./image-3.png";
+export { default as image4 } from "./image-4.png";
+export { default as image5 } from "./image-5.png";
+export { default as image6 } from "./image-6.png";
+export { default as image7 } from "./image-7.png";
+export { default as image8 } from "./image-8.png";
+export { default as image9 } from "./image-9.png";
+export { default as democouponpage } from "./democouponpage.png";
+
+export { default as bg } from "./bg.jpg";
+export { default as bg1 } from "./bg1.jpg";
+export { default as bg2 } from "./bg2.jpg";
+export { default as bg3 } from "./bg3.jpg";
+export { default as bg4 } from "./bg4.jpg";
+export { default as bg5 } from "./bg5.jpg";
+export { default as bg6 } from "./bg6.jpg";
+export { default as bg7 } from "./bg7.jpg";
+export { default as bg8 } from "./bg8.jpg";
+export { default as bg9 } from "./bg9.jpg";

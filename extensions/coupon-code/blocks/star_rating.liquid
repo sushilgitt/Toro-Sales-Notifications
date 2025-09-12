@@ -1,0 +1,64 @@
+
+{% comment %} <p class="asasd"> asdasd {{ request.host }}/{{ request.path }} {{ request.origin }}</p> {% endcomment %}
+
+{% capture current_url %}
+{% case template %}
+{% when 'page' %}{{page.url}}
+{% when 'blog' %}{% if current_tags %}/{{ current_tags.first | handleize }}{% endif %}
+{% when 'article' %}{{article.url}}
+{% when 'collection' %}{{collection.url}}{% if current_tags %}/{{ current_tags.first | handleize }}{% endif %}
+{% when 'product' %}{{product.url}}
+{% endcase %}
+{% endcapture %}
+
+<input type="hidden" id="host_url" data-url="{{ shop.url }}{{ current_url | strip_newlines | strip }}"
+  value="{{ shop.url }}{{current_url | strip_newlines }}" />
+
+<script>
+  var mcAppData = {
+    "shop": "{{ shop.permanent_domain }}"
+  };
+  const image1 = "{{ 'image-1.png' | asset_url }}";
+  const image2 = "{{ 'image-2.png' | asset_url }}";
+  const image3 = "{{ 'image-3.png' | asset_url }}";
+  const image4 = "{{ 'image-4.png' | asset_url }}";
+  const image5 = "{{ 'image-5.png' | asset_url }}";
+  const image6 = "{{ 'image-6.png' | asset_url }}";
+  const image7 = "{{ 'image-7.png' | asset_url }}";
+  const image8 = "{{ 'image-8.png' | asset_url }}";
+  const image9 = "{{ 'image-9.png' | asset_url }}";
+  const main_image = "{{ 'summer.jpg' |  asset_url }}";
+
+  const bg = "{{ 'bg.jpg' | asset_url }}";
+  const bg1 = "{{ 'bg1.jpg' | asset_url }}";
+  const bg2 = "{{ 'bg2.jpg' | asset_url }}";
+  const bg3 = "{{ 'bg3.jpg' | asset_url }}";
+  const bg4 = "{{ 'bg4.jpg' | asset_url }}";
+  const bg5 = "{{ 'bg5.jpg' | asset_url }}";
+  const bg6 = "{{ 'bg6.jpg' | asset_url }}";
+  const bg7 = "{{ 'bg7.jpg' | asset_url }}";
+  const bg8 = "{{ 'bg8.jpg' | asset_url }}";
+  const bg9 = "{{ 'bg9.jpg' | asset_url }}";
+  
+</script>
+
+
+<script src="https://coupon.magecomp.net/js/CouponCodeHelper.js" defer></script>
+
+<input type="hidden" id="brand-description" data-description="{{ shop.brand.short_description }}">
+
+<input type="hidden" id="brand-image" data-src="{{ shop.url }}/cdn/shop/{{ shop.brand.logo.preview_image.src }}">
+
+{% schema %}
+{
+  "name": "Coupon Code",
+  "target": "body",
+  "stylesheet": "coupon-code.css",
+  "enabled_on": {
+  "templates": ["index", "product","cart","collection"]
+  },
+  "settings": []
+}
+{% endschema %}
+
+
