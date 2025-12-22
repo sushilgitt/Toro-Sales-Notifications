@@ -387,7 +387,7 @@ return [
     'webhooks' => [
             [
                 'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'APP_UNINSTALLED'),
-                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://new-federation-po-healing.trycloudflare.com/webhook/app-uninstalled')
+                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://coupon.magecomp.net/webhook/app-uninstalled')
             ],
         /*
             [

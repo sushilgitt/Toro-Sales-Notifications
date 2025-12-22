@@ -15,6 +15,7 @@ import '@shopify/polaris/build/esm/styles.css';
 		        <NavMenu>
 		            <a href="/coupon">Notifications</a>
 					<a href="/bannerlist">Banner</a>
+					<a href="/shipping/create">Shipping Banner</a>
 		        </NavMenu>
 		        <AppRoute />
 		    </Router>

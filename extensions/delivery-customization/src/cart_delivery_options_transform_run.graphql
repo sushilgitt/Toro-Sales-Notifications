@@ -1,0 +1,27 @@
+query RunInput {
+  deliveryCustomization {
+    metafield(
+      namespace: "$app:delivery-customization"
+      key: "free_shipping_threshold"
+    ) {
+      jsonValue
+    }
+  }
+  cart {
+    cost {
+      totalAmount {
+        amount
+      }
+    }
+    deliveryGroups {
+      id
+      deliveryOptions {
+        handle
+        title
+        cost {
+          amount
+        }
+      }
+    }
+  }
+}

@@ -18,6 +18,7 @@
   var mcAppData = {
     "shop": "{{ shop.permanent_domain }}"
   };
+ 
   const image1 = "{{ 'image-1.png' | asset_url }}";
   const image2 = "{{ 'image-2.png' | asset_url }}";
   const image3 = "{{ 'image-3.png' | asset_url }}";
@@ -39,11 +40,14 @@
   const bg7 = "{{ 'bg7.jpg' | asset_url }}";
   const bg8 = "{{ 'bg8.jpg' | asset_url }}";
   const bg9 = "{{ 'bg9.jpg' | asset_url }}";
+
+   var shopCurrencySymbol = {{ cart.currency.symbol | json }};
+   console.log('shopsymbol',shopCurrencySymbol);
   
 </script>
 
 
-<script src="https://coupon.magecomp.net/js/CouponCodeHelper.js" defer></script>
+<script src="https://keno-roman-highs-doctor.trycloudflare.com/js/CouponCodeHelper.js" defer></script>
 
 <input type="hidden" id="brand-description" data-description="{{ shop.brand.short_description }}">
 

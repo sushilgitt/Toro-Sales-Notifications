@@ -8,6 +8,7 @@ use App\Models\Display;
 use App\Models\MainSetting;
 use Shopify\Auth\Session as AuthSession;
 use App\Models\Session;
+use App\Models\Shipping;
 use App\Models\Triggers;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -32,19 +33,23 @@ class MainSettingController extends Controller
 
     public function coupon_data(Request $request)
     {
-        // info($request->shop);
+        
         $shop = $request->shop;
-
+        info($shop);
+          info('shipping data');
         $mainSettings = MainSetting::active()
             ->where('shop', $shop)
             ->with('displays', 'customizes', 'triggers')
             ->get();
 
         $countdown = Banner::where('shop', $shop)->get();
+        $shippingbanner = Shipping::where('shop',$shop)->get();
+        info($shippingbanner->toArray());
 
         return response()->json([
             'mainSettings' => $mainSettings,
-            'countdown' => $countdown
+            'countdown' => $countdown,
+            'shippingbanner' => $shippingbanner,
         ]);
     }
 

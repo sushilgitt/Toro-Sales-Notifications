@@ -67,12 +67,34 @@ export default function IndexPage() {
             });
     }, []);
 
+
+    useEffect(() => {
+        
+        fetch("/api/getthemefile")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('data',data);
+                setAppstatues(!data.appStatus);
+            })
+            .catch((error) => {
+                console.error("Error fetching assets:", error);
+                setAppstatues(false);
+            });
+    }, []);
+const [appstatues, setAppstatues] = useState(false);
+    // const handlestatus = () => {
+    //     // const appId = '9aed28e4-1a34-4285-9bc4-27b84405ea37'; 
+    //     const appId = '32e5af68-81eb-458b-a832-3995584cb12e'; 
+    //     const url = `https://${atob(host)}/admin/themes/current/editor?context=apps&template=index&activateAppId=${appId}/star_rating`;
+    //     window.open(url, '_blank');
+    //     setIsAppEnabled((prev) => !prev);
+    // };
+
     const handlestatus = () => {
         // const appId = '9aed28e4-1a34-4285-9bc4-27b84405ea37'; 
-        const appId = '32e5af68-81eb-458b-a832-3995584cb12e'; 
+        const appId = "32e5af68-81eb-458b-a832-3995584cb12e";
         const url = `https://${atob(host)}/admin/themes/current/editor?context=apps&template=index&activateAppId=${appId}/star_rating`;
-        window.open(url, '_blank');
-        setIsAppEnabled((prev) => !prev);
+        window.open(url, "_blank");
     };
     return (
         <Page>
@@ -85,18 +107,24 @@ export default function IndexPage() {
 
             <Card>
                 <Box paddingBlockEnd={100}>
-                    <InlineStack align="space-between">
-                        <Text variant="headingMd" as="h6">App status</Text>
-                        <Box>
-                            <Badge tone={isAppEnabled ? 'success' : 'attention'}>
-                                {isAppEnabled ? "Active" : "Inactive"}
-                            </Badge>{" "}
-                            <Button variant="primary" onClick={handlestatus}>
-                                {isAppEnabled ? 'Disable' : 'Enable'}
-                            </Button>
-                        </Box>
-                    </InlineStack>
-                </Box>
+                <InlineStack align="space-between">
+                    <Text as="h2" variant="headingMd">
+                        App status
+                    </Text>
+                    <Box>
+                        <Badge tone={appstatues ? "success" : "attention"}>
+                            {appstatues ? "Enabled" : "Disabled"}
+                        </Badge>{" "}
+                        <Button
+                            variant={appstatues ? "secondary" : "primary"}
+                            tone={appstatues ? "critical" : null}
+                            onClick={handlestatus}
+                        >
+                            {appstatues ? "Disable" : "Enable"}
+                        </Button>
+                    </Box>
+                </InlineStack>
+            </Box>
                 <Box paddingBlock="100">
                     <Text >
                         To start using TORO Sales notifications, please{' '}

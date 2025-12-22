@@ -7,6 +7,7 @@
     <title>Laravel with React</title>
     <meta name="shopify-api-key" content="{{ config('shopify-app.api_key') }}" />
     <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
+    <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
     <script type="text/javascript">
         window.$crisp = [];
         window.CRISP_WEBSITE_ID = "f2fbf04e-52f0-4818-83ec-ecd33dc5e388";

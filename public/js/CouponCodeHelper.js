@@ -1,4 +1,3 @@
-
 function myJQueryCode() {
     // console.log("showModal is called");
     $host_data = $("#host_url").data();
@@ -7,9 +6,10 @@ function myJQueryCode() {
     // console.log("host", $brand_img.src);
     // console.log("mcAppData", mcAppData);
 
+
     fetch(
         // "https://coupon.magecomp.net/api/coupon_data",
-        "https://coupon.magecomp.net/api/coupon_data",
+        "https://keno-roman-highs-doctor.trycloudflare.com/api/coupon_data",
         {
             method: "POST",
             body: JSON.stringify(mcAppData),
@@ -531,320 +531,333 @@ function myJQueryCode() {
                 );
             }
 
-        const { countdown } = data;
-        if (data && Array.isArray(countdown)) {
-            
-            countdown.forEach((setting, index) => {
-                // console.log(`countdown ${index} selectedbanner:`, setting.details[0]?.selectedbanner);
+            const { countdown } = data;
+            if (data && Array.isArray(countdown)) {
+                
+                countdown.forEach((setting, index) => {
+                    // console.log(`countdown ${index} selectedbanner:`, setting.details[0]?.selectedbanner);
 
-                const detail = setting.details[0];
+                    const detail = setting.details[0];
 
-                const currentPageUrl = window.location.href;
+                    const currentPageUrl = window.location.href;
 
-                if ((detail.pageUrl && detail.pageUrl !== currentPageUrl) ||
-                    (detail.hidePageUrl && detail.hidePageUrl === currentPageUrl)) {
-                    return;
-                }
+                    if ((detail.pageUrl && detail.pageUrl !== currentPageUrl) ||
+                        (detail.hidePageUrl && detail.hidePageUrl === currentPageUrl)) {
+                        return;
+                    }
 
-                const justifyContent = detail.selectedbanner === "left"
-                    ? "flex-start"
-                    : detail.selectedbanner === "right"
-                    ? "flex-end"
-                    : "center";
+                    const justifyContent = detail.selectedbanner === "left"
+                        ? "flex-start"
+                        : detail.selectedbanner === "right"
+                        ? "flex-end"
+                        : "center";
 
-                const closeBtnDisplay = detail.closebtn === true ? 'none' : 'inline';
+                    const closeBtnDisplay = detail.closebtn === true ? 'none' : 'inline';
 
-                let labelGap = '20px';
-                switch (detail.labelgap) {
-                    case 'small':
-                        labelGap = '10px';
-                        break;
-                    case 'medium':
-                        labelGap = '30px';
-                        break;
-                    case 'large':
-                        labelGap = '40px';
-                        break;
-                    case 'extra large':
-                        labelGap = '50px';
-                        break;
-                    default:
-                        labelGap = '20px';
-                }
-
-                const newtab = detail.checked === true || detail.checked === "true" || detail.checked === "True";
-                const buttonLink = detail.destinationUrl || "#";
-
-                const buttontype = detail.selected === 'default button' || detail.selected === 'text link' || detail.selected === 'square button' || detail.selected === 'round button';
-                const buttonStyle = `
-                    ${buttontype ? (
-                        detail.selected === 'text link' ? 'display: inline; background-color: transparent; text-decoration: underline; cursor: pointer;' :
-                        detail.selected === 'square button' ? 'border-radius: 0;' :
-                        detail.selected === 'round button' ? 'border-radius: 50%;' :
-                        'border-radius: 4px; '
-                    ) : 'border-radius: 4px;'}
-                `;
-
-                const BackgroundImagebanner = (url) => {
-                    const imageKey = url?.split('/').pop()?.replace('.jpg', '').trim();
-                    let imagebanner = "";
-                    switch (imageKey) {
-                        case "bg":
-                            imagebanner = bg;
+                    let labelGap = '20px';
+                    switch (detail.labelgap) {
+                        case 'small':
+                            labelGap = '10px';
                             break;
-                        case "bg1":
-                            imagebanner = bg1;
+                        case 'medium':
+                            labelGap = '30px';
                             break;
-                        case "bg2":
-                            imagebanner = bg2;
+                        case 'large':
+                            labelGap = '40px';
                             break;
-                        case "bg3":
-                            imagebanner = bg3;
-                            break;
-                        case "bg4":
-                            imagebanner = bg4;
-                            break;
-                        case "bg5":
-                            imagebanner = bg5;
-                            break;
-                        case "bg6":
-                            imagebanner = bg6;
-                            break;
-                        case "bg7":
-                            imagebanner = bg7;
-                            break;
-                        case "bg8":
-                            imagebanner = bg8;
-                            break;
-                        case "bg9":
-                            imagebanner = bg9;
+                        case 'extra large':
+                            labelGap = '50px';
                             break;
                         default:
-                            imagebanner = "";
+                            labelGap = '20px';
                     }
-                    return imagebanner ? `url(${imagebanner})` : "none";
-                };
 
+                    const newtab = detail.checked === true || detail.checked === "true" || detail.checked === "True";
+                    const buttonLink = detail.destinationUrl || "#";
 
-                    const initialHours = Number(detail.hours) || 0;
-                    const initialDays = Number(detail.days) || 0;
-                    const initialMinutes = Number(detail.minutes) || 0;
+                    const buttontype = detail.selected === 'default button' || detail.selected === 'text link' || detail.selected === 'square button' || detail.selected === 'round button';
+                    const buttonStyle = `
+                        ${buttontype ? (
+                            detail.selected === 'text link' ? 'display: inline; background-color: transparent; text-decoration: underline; cursor: pointer;' :
+                            detail.selected === 'square button' ? 'border-radius: 0;' :
+                            detail.selected === 'round button' ? 'border-radius: 50%;' :
+                            'border-radius: 4px; '
+                        ) : 'border-radius: 4px;'}
+                    `;
 
-                    const startdate = detail.startDate;
-                    const enddate = detail.endDate;
-                    const datetime = detail.dateTime;
-                    const specificDate = detail.specificdate;
-
-                    const bannerId = `countdown-banner-${index}`;
-                    const daysId = `countdown-days-${index}`;
-                    const hoursId = `countdown-hours-${index}`;
-                    const minutesId = `countdown-minutes-${index}`;
-                    const secondsId = `countdown-seconds-${index}`;
-
-                    const uniqueKey = `countdown-target-${index}`;
-                    const buttonId = `countdown-button-${index}`;
-                    let targetTime = null;
-
-                   let bannerMessage = '';
-
-                    const now = new Date();
-
-                    if (specificDate) {
-                        const specific = new Date(specificDate);
-                        const specificDayStart = new Date(specific.getFullYear(), specific.getMonth(), specific.getDate());
-                        const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-                        const isSameDay = specificDayStart.getTime() === todayStart.getTime();
-                        const isBefore = specificDayStart.getTime() > todayStart.getTime();
-                        const isAfter = specificDayStart.getTime() < todayStart.getTime();
-
-                        if (isSameDay) {
-                            targetTime = new Date(specific.getFullYear(), specific.getMonth(), specific.getDate(), 23, 59, 59, 999);
-                            bannerMessage = "🎉 It's Here! One-Day Sale Ends Tonight!";
-                        } else if (isBefore) {
-                            targetTime = null;
-                             const formattedDate = specific.toLocaleDateString('en-GB', {
-                                day: 'numeric', 
-                                month: 'long', 
-                                year: 'numeric'
-                            });
-                            bannerMessage = `⏳ Big Sale Coming on ${formattedDate}!`;
-                        } else if (isAfter) {
-                            targetTime = null;
-                            bannerMessage = '⚠️ The One-Day Sale Has Ended. Stay Tuned for More Offers!';
+                    const BackgroundImagebanner = (url) => {
+                        const imageKey = url?.split('/').pop()?.replace('.jpg', '').trim();
+                        let imagebanner = "";
+                        switch (imageKey) {
+                            case "bg":
+                                imagebanner = bg;
+                                break;
+                            case "bg1":
+                                imagebanner = bg1;
+                                break;
+                            case "bg2":
+                                imagebanner = bg2;
+                                break;
+                            case "bg3":
+                                imagebanner = bg3;
+                                break;
+                            case "bg4":
+                                imagebanner = bg4;
+                                break;
+                            case "bg5":
+                                imagebanner = bg5;
+                                break;
+                            case "bg6":
+                                imagebanner = bg6;
+                                break;
+                            case "bg7":
+                                imagebanner = bg7;
+                                break;
+                            case "bg8":
+                                imagebanner = bg8;
+                                break;
+                            case "bg9":
+                                imagebanner = bg9;
+                                break;
+                            default:
+                                imagebanner = "";
                         }
+                        return imagebanner ? `url(${imagebanner})` : "none";
+                    };
 
-                    } else if(datetime) {
-                        targetTime = new Date(datetime);  
-                    } else if (startdate && enddate) {
-                        const start = new Date(startdate);
-                        const end = new Date(enddate);
+
+                        const initialHours = Number(detail.hours) || 0;
+                        const initialDays = Number(detail.days) || 0;
+                        const initialMinutes = Number(detail.minutes) || 0;
+
+                        const startdate = detail.startDate;
+                        const enddate = detail.endDate;
+                        const datetime = detail.dateTime;
+                        const specificDate = detail.specificdate;
+
+                        const bannerId = `countdown-banner-${index}`;
+                        const daysId = `countdown-days-${index}`;
+                        const hoursId = `countdown-hours-${index}`;
+                        const minutesId = `countdown-minutes-${index}`;
+                        const secondsId = `countdown-seconds-${index}`;
+
+                        const uniqueKey = `countdown-target-${index}`;
+                        const buttonId = `countdown-button-${index}`;
+                        let targetTime = null;
+
+                    let bannerMessage = '';
+
                         const now = new Date();
 
-                        if (now < start) {
-                            targetTime = null;  
-                        }
-                        else if (now >= start && now <= end) {
-                            targetTime = end;  
-                        }
-                        else {
-                            targetTime = null;
-                        }
-                    } else {
-                        const now = new Date();
-                        targetTime = new Date(
-                            now.getTime() + 
-                            (initialDays * 24 * 60 * 60 * 1000) +  
-                            (initialHours * 60 * 60 * 1000) +      
-                            (initialMinutes * 60 * 1000)           
-                        );
-                    }
-                    detail.bannerContent = bannerMessage;
+                        if (specificDate) {
+                            const specific = new Date(specificDate);
+                            const specificDayStart = new Date(specific.getFullYear(), specific.getMonth(), specific.getDate());
+                            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-                    function calculateCountdown() {
-                        if (targetTime) {
-                            const now = new Date();
-                            let diff = targetTime - now;
-                            if (diff < 0) diff = 0;  
+                            const isSameDay = specificDayStart.getTime() === todayStart.getTime();
+                            const isBefore = specificDayStart.getTime() > todayStart.getTime();
+                            const isAfter = specificDayStart.getTime() < todayStart.getTime();
 
-                            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-                            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-                            const seconds = Math.floor((diff / 1000) % 60);
-
-                            if (days === 1 && hours === 0 && minutes === 0 && seconds === 0) {
-                                return {
-                                    days: '01',
-                                    hours: '00',
-                                    minutes: '00',
-                                    seconds: '00',
-                                    message: '1 Day Left!'
-                                };
+                            if (isSameDay) {
+                                targetTime = new Date(specific.getFullYear(), specific.getMonth(), specific.getDate(), 23, 59, 59, 999);
+                                bannerMessage = "🎉 It's Here! One-Day Sale Ends Tonight!";
+                            } else if (isBefore) {
+                                targetTime = null;
+                                const formattedDate = specific.toLocaleDateString('en-GB', {
+                                    day: 'numeric', 
+                                    month: 'long', 
+                                    year: 'numeric'
+                                });
+                                bannerMessage = `⏳ Big Sale Coming on ${formattedDate}!`;
+                            } else if (isAfter) {
+                                targetTime = null;
+                                bannerMessage = '⚠️ The One-Day Sale Has Ended. Stay Tuned for More Offers!';
                             }
 
-                            return {
-                                days: String(days).padStart(2, '0'),
-                                hours: String(hours).padStart(2, '0'),
-                                minutes: String(minutes).padStart(2, '0'),
-                                seconds: String(seconds).padStart(2, '0'),
-                                message: '' 
-                            };
+                        } else if(datetime) {
+                            targetTime = new Date(datetime);  
+                        } else if (startdate && enddate) {
+                            const start = new Date(startdate);
+                            const end = new Date(enddate);
+                            const now = new Date();
+
+                            if (now < start) {
+                                targetTime = null;  
+                            }
+                            else if (now >= start && now <= end) {
+                                targetTime = end;  
+                            }
+                            else {
+                                targetTime = null;
+                            }
                         } else {
-                            return { days: '00', hours: '00', minutes: '00', seconds: '00', message: '' };
+                            const now = new Date();
+                            targetTime = new Date(
+                                now.getTime() + 
+                                (initialDays * 24 * 60 * 60 * 1000) +  
+                                (initialHours * 60 * 60 * 1000) +      
+                                (initialMinutes * 60 * 1000)           
+                            );
                         }
-                    }
+                        detail.bannerContent = bannerMessage;
 
-                    function updateCountdown() {
-                        const { days, hours, minutes, seconds, message } = calculateCountdown();
+                        function calculateCountdown() {
+                            if (targetTime) {
+                                const now = new Date();
+                                let diff = targetTime - now;
+                                if (diff < 0) diff = 0;  
 
-                        $(`#${daysId}`).text(days);
-                        $(`#${hoursId}`).text(hours);
-                        $(`#${minutesId}`).text(minutes);
-                        $(`#${secondsId}`).text(seconds);
+                                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                                const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+                                const minutes = Math.floor((diff / (1000 * 60)) % 60);
+                                const seconds = Math.floor((diff / 1000) % 60);
 
-                        if (days === '00' && hours === '00' && minutes === '00' && seconds === '00' && message) {
+                                if (days === 1 && hours === 0 && minutes === 0 && seconds === 0) {
+                                    return {
+                                        days: '01',
+                                        hours: '00',
+                                        minutes: '00',
+                                        seconds: '00',
+                                        message: '1 Day Left!'
+                                    };
+                                }
+
+                                return {
+                                    days: String(days).padStart(2, '0'),
+                                    hours: String(hours).padStart(2, '0'),
+                                    minutes: String(minutes).padStart(2, '0'),
+                                    seconds: String(seconds).padStart(2, '0'),
+                                    message: '' 
+                                };
+                            } else {
+                                return { days: '00', hours: '00', minutes: '00', seconds: '00', message: '' };
+                            }
                         }
-                    }
-               
-                // const positionStyle = detail.sticky === true ? 'fixed' : 'absolute';
 
-                let positionStyle = 'relative';
-                let positionOffset = '';
+                        function updateCountdown() {
+                            const { days, hours, minutes, seconds, message } = calculateCountdown();
 
-                if (detail.bannerpos === 'bottom') {
-                    if (detail.sticky === true) {
-                        positionStyle = 'fixed';
-                        positionOffset = 'bottom: 0; top: auto;';
-                    } else {
-                        positionStyle = 'relative';  
-                        positionOffset = '';         
-                    }
-                } else {
-                    positionStyle = detail.sticky === true ? 'fixed' : 'absolute';
-                    positionOffset = detail.sticky === true ? 'top: 0; bottom: auto;' : 'top: 0; bottom: auto;';
-                }
+                            $(`#${daysId}`).text(days);
+                            $(`#${hoursId}`).text(hours);
+                            $(`#${minutesId}`).text(minutes);
+                            $(`#${secondsId}`).text(seconds);
 
-                const bannerHeight = detail.rangeValue || 60; 
-
-                const $body = $('body');
-                const originalBodyMarginTop = $body.css('margin-top');
-                const originalBodyMarginBottom = $body.css('margin-bottom');
-
-                if (detail.bannerpos === 'bottom' && detail.sticky === true) {
-                    $body.css('margin-bottom', `${bannerHeight}px`);
-                } else if (detail.bannerpos !== 'bottom') {
-                    $body.css('margin-top', `${bannerHeight}px`);
-                }
-
-                const bannerZIndex = 999999;
+                            if (days === '00' && hours === '00' && minutes === '00' && seconds === '00' && message) {
+                            }
+                        }
                 
-                const banner = `<div id="${bannerId}" class="countdown-banner" style="z-index: ${bannerZIndex}; background-color:${detail.backgroundColorbanner || '#ADD8E6'};
-                    padding: 10px; text-align: center; border-radius: 5px; position: ${positionStyle}; width:100%; height:${detail.rangeValue || 60}px;
-                    background-image: ${BackgroundImagebanner(detail.selectedBackgroundImage)};background-origin: border-box;
-                   background-size: contain;
-                     ${positionOffset}">
-                    <div style="display: flex;justify-content: ${justifyContent}; align-items: center; gap: ${labelGap}; flex-wrap: wrap; font-size:${detail.fontValue || 15}px;font-family:${detail.fontType}">
-                        <div style="${detail.selectedplace === 'left' ? 'order: 6;' : ''};color: ${detail.textColor || '#4634eb'}; font-weight: bold; margin-bottom: 10px;">
-                            ${detail.bannerContent || '🚨 Hurry! Sale Ends Soon!'}
-                        </div>
-                        <div style="display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
-                            <span id="${daysId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'}; background-color:${detail.backgroundColor}"></span>
-                            <span style="color: ${detail.labelColor || '#000000'}">${detail.dayslbl || 'Days'}</span>
-                        </div>
-                        <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
-                            <span id="${hoursId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
-                            <span style="color: ${detail.labelColor || '#000000'}">${detail.hourslbl || 'Hours'}</span>
-                        </div>
-                        <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
-                            <span id="${minutesId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
-                            <span style="color: ${detail.labelColor || '#000000'}">${detail.minuteslbl || 'Minutes'}</span>
-                        </div>
-                        <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
-                            <span id="${secondsId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
-                            <span style="color: ${detail.labelColor || '#000000'}">${detail.secondslbl || 'Seconds'}</span>
-                        </div>
-                        <button id="${buttonId}" style="color:${detail.buttonTextColor || '#fff'}; background-color:${detail.buttonBackgroundColor || '#333'}; font-size: 16px; font-weight: bold; padding: 8px 10px; border: none; border-radius: 4px; cursor: pointer; 
-                         width:${detail.buttonWidth || 106}px; height:${detail.buttonHeight || 40}px; ${buttonStyle}">
-                            ${detail.buttonText || 'Shop Now'}
-                        </button>
-                    </div>
-                    <span style="position: absolute; top: -5px; right: 5px; cursor: pointer; color: #333; display:${closeBtnDisplay}" class="close-banner" id="close-banner-${index}">✖</span>
-                </div>`;
+                    // const positionStyle = detail.sticky === true ? 'fixed' : 'absolute';
 
-                $('#modal-container').append(banner);
+                    let positionStyle = 'relative';
+                    let positionOffset = '';
 
-                $(`#${buttonId}`).on("click", (e) => {
-                    e.preventDefault(); 
-                    console.log(`Button ${buttonId} clicked - newtab:`, newtab, "buttonLink:", buttonLink);
-                    if (newtab) {
-                        window.open(buttonLink, "_blank", "noopener,noreferrer");
+                    if (detail.bannerpos === 'bottom') {
+                        if (detail.sticky === true) {
+                            positionStyle = 'fixed';
+                            positionOffset = 'bottom: 0; top: auto;';
+                        } else {
+                            positionStyle = 'relative';  
+                            positionOffset = '';         
+                        }
                     } else {
-                        window.location.href = buttonLink;
+                        positionStyle = detail.sticky === true ? 'fixed' : 'absolute';
+                        positionOffset = detail.sticky === true ? 'top: 0; bottom: auto;' : 'top: 0; bottom: auto;';
                     }
-                });
 
-              if (targetTime) {
-                    updateCountdown();
-                    setInterval(updateCountdown, 1000);  
-                } else {
-                    updateCountdown();
-                }
+                    const bannerHeight = detail.rangeValue || 60; 
 
-                $(`#close-banner-${index}`).click(function () {
-                    $(`#${bannerId}`).hide();
+                    const $body = $('body');
+                    const originalBodyMarginTop = $body.css('margin-top');
+                    const originalBodyMarginBottom = $body.css('margin-bottom');
+
                     if (detail.bannerpos === 'bottom' && detail.sticky === true) {
-                $body.css('margin-bottom', originalBodyMarginBottom);
-            } else if (detail.bannerpos !== 'bottom') {
-                $body.css('margin-top', originalBodyMarginTop);
-            }
-                });
+                        $body.css('margin-bottom', `${bannerHeight}px`);
+                    } else if (detail.bannerpos !== 'bottom') {
+                        $body.css('margin-top', `${bannerHeight}px`);
+                    }
 
-                const showDelay = parseInt(detail.show) || 0;
-                const hideDelay = parseInt(detail.hide) || 0;
+                    const bannerZIndex = 999999;
+                    
+                    const banner = `<div id="${bannerId}" class="countdown-banner" style="z-index: ${bannerZIndex}; background-color:${detail.backgroundColorbanner || '#ADD8E6'};
+                        padding: 10px; text-align: center; border-radius: 5px; position: ${positionStyle}; width:100%; height:${detail.rangeValue || 60}px;
+                        background-image: ${BackgroundImagebanner(detail.selectedBackgroundImage)};background-origin: border-box;
+                    background-size: contain;
+                        ${positionOffset}">
+                        <div style="display: flex;justify-content: ${justifyContent}; align-items: center; gap: ${labelGap}; flex-wrap: wrap; font-size:${detail.fontValue || 15}px;font-family:${detail.fontType}">
+                            <div style="${detail.selectedplace === 'left' ? 'order: 6;' : ''};color: ${detail.textColor || '#4634eb'}; font-weight: bold; margin-bottom: 10px;">
+                                ${detail.bannerContent || '🚨 Hurry! Sale Ends Soon!'}
+                            </div>
+                            <div style="display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
+                                <span id="${daysId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'}; background-color:${detail.backgroundColor}"></span>
+                                <span style="color: ${detail.labelColor || '#000000'}">${detail.dayslbl || 'Days'}</span>
+                            </div>
+                            <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
+                                <span id="${hoursId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
+                                <span style="color: ${detail.labelColor || '#000000'}">${detail.hourslbl || 'Hours'}</span>
+                            </div>
+                            <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
+                                <span id="${minutesId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
+                                <span style="color: ${detail.labelColor || '#000000'}">${detail.minuteslbl || 'Minutes'}</span>
+                            </div>
+                            <div style="color: #333; display: ${detail.countdisplay ? 'flex' : 'none'}; flex-direction: column; align-items: center;">
+                                <span id="${secondsId}" style="font-weight: bold;color: ${detail.digitColor || '#000000'};background-color:${detail.backgroundColor}"></span>
+                                <span style="color: ${detail.labelColor || '#000000'}">${detail.secondslbl || 'Seconds'}</span>
+                            </div>
+                            <button id="${buttonId}" style="color:${detail.buttonTextColor || '#fff'}; background-color:${detail.buttonBackgroundColor || '#333'}; font-size: 16px; font-weight: bold; padding: 8px 10px; border: none; border-radius: 4px; cursor: pointer; 
+                            width:${detail.buttonWidth || 106}px; height:${detail.buttonHeight || 40}px; ${buttonStyle}">
+                                ${detail.buttonText || 'Shop Now'}
+                            </button>
+                        </div>
+                        <span style="position: absolute; top: -5px; right: 5px; cursor: pointer; color: #333; display:${closeBtnDisplay}" class="close-banner" id="close-banner-${index}">✖</span>
+                    </div>`;
 
-                if (showDelay > 0) {
-                    $(`#${bannerId}`).hide();
-                    setTimeout(() => {
+                    $('#modal-container').append(banner);
+
+                    $(`#${buttonId}`).on("click", (e) => {
+                        e.preventDefault(); 
+                        console.log(`Button ${buttonId} clicked - newtab:`, newtab, "buttonLink:", buttonLink);
+                        if (newtab) {
+                            window.open(buttonLink, "_blank", "noopener,noreferrer");
+                        } else {
+                            window.location.href = buttonLink;
+                        }
+                    });
+
+                if (targetTime) {
+                        updateCountdown();
+                        setInterval(updateCountdown, 1000);  
+                    } else {
+                        updateCountdown();
+                    }
+
+                    $(`#close-banner-${index}`).click(function () {
+                        $(`#${bannerId}`).hide();
+                        if (detail.bannerpos === 'bottom' && detail.sticky === true) {
+                    $body.css('margin-bottom', originalBodyMarginBottom);
+                } else if (detail.bannerpos !== 'bottom') {
+                    $body.css('margin-top', originalBodyMarginTop);
+                }
+                    });
+
+                    const showDelay = parseInt(detail.show) || 0;
+                    const hideDelay = parseInt(detail.hide) || 0;
+
+                    if (showDelay > 0) {
+                        $(`#${bannerId}`).hide();
+                        setTimeout(() => {
+                            $(`#${bannerId}`).show();
+                            if (hideDelay > 0) {
+                                setTimeout(() => {
+                                    $(`#${bannerId}`).hide();
+                                    if (detail.bannerpos === 'bottom' && detail.sticky === true) {
+                                $body.css('margin-bottom', originalBodyMarginBottom);
+                            } else if (detail.bannerpos !== 'bottom') {
+                                $body.css('margin-top', originalBodyMarginTop);
+                            }
+                                }, hideDelay * 1000);
+                            }
+                        }, showDelay * 1000);
+                    } else {
                         $(`#${bannerId}`).show();
                         if (hideDelay > 0) {
                             setTimeout(() => {
@@ -856,25 +869,89 @@ function myJQueryCode() {
                         }
                             }, hideDelay * 1000);
                         }
-                    }, showDelay * 1000);
-                } else {
-                    $(`#${bannerId}`).show();
-                    if (hideDelay > 0) {
-                        setTimeout(() => {
-                            $(`#${bannerId}`).hide();
-                            if (detail.bannerpos === 'bottom' && detail.sticky === true) {
-                        $body.css('margin-bottom', originalBodyMarginBottom);
-                    } else if (detail.bannerpos !== 'bottom') {
-                        $body.css('margin-top', originalBodyMarginTop);
                     }
-                        }, hideDelay * 1000);
+
+                });
+            }
+
+            const { shippingbanner } = data;
+
+            const currentUrl = window.location.href;
+            const currentPath = window.location.pathname.toLowerCase();
+            if (data && Array.isArray(shippingbanner)) {
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                shippingbanner.forEach((banner, index) => {
+                    const parentDiv = "body"; 
+                    const details = banner.details ? JSON.parse(banner.details) : {};
+
+                    const startDate = details.startdate ? new Date(details.startdate) : null;
+                    if (startDate) startDate.setHours(0,0,0,0);
+                    
+                    const endDate = details.enddate ? new Date(details.enddate) : null;
+                    if (endDate) endDate.setHours(0,0,0,0);
+
+                    if ((startDate && today < startDate) || (endDate && today > endDate)) {
+                        return;
                     }
-                }
 
-            });
-        }
+                    if (details.showpageurl && !currentUrl.includes(details.showpageurl)) {
+                        return;
+                    }
+                    if (details.hidepageurl && currentUrl.includes(details.hidepageurl)) {
+                        return;
+                    }
 
+                    if (Array.isArray(details.selectedTags) && details.selectedTags.length > 0) {
+                        const pageMatched = details.selectedTags.some(tag => {
+                            if (tag.toLowerCase() === 'home') return currentPath === '/' || currentPath === '/index.html';
+                            return currentPath.includes(tag.toLowerCase());
+                        });
 
+                        if (!pageMatched) {
+                            return;
+                        }
+                    }
+
+                    let justifyContent = 'center';
+                    if (details.alignment === 'left') justifyContent = 'flex-start';
+                    else if (details.alignment === 'right') justifyContent = 'flex-end';
+
+                    const bannerHtml = `
+                        <div id="shipping-banner-${index}" class="shipping-banner" 
+                            style="
+                                position: fixed; 
+                                ${details.bannerpos === 'bottom' ? 'bottom: 0;' : 'top: 0;'} 
+                                left: 0; right: 0;
+                                width: 100%;
+                                height: ${details.height || 60}px;
+                                z-index: 999999;
+                                background-color: ${details.bgcolor || '#f0f8ff'};
+                                display: flex;
+                                align-items: center;
+                                justify-content: ${justifyContent};
+                                padding: 0 20px;
+                                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                                font-size: ${details.fontsize || 16}px;
+                                color: ${details.txtcolor || '#000'};
+                                font-weight: bold;
+                            ">
+                            <span>
+                                ${details.shippingcontent || ''} 
+                                <span style="
+                                    font-size: ${details.amountsize || details.fontsize || 16}px;
+                                    color: ${details.amountcolor || details.txtcolor || '#000'};
+                                    font-weight: bold;
+                                ">
+                                    ${shopCurrencySymbol}${details.shippingamount || ''}
+                                </span>
+                            </span>
+                        </div>
+                    `;
+
+                    $(parentDiv).append(bannerHtml);
+                });
+            }
 
         })
         .catch((error) => console.error("Error fetching data:", error));
@@ -899,8 +976,6 @@ function handlecopy(couponCode) {
             console.error('Error copying coupon code:', error);
         });
 }
-
-
 
 if (typeof jQuery == "undefined") {
     var headTag = document.getElementsByTagName("head")[0];
