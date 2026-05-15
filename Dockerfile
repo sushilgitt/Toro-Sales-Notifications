@@ -6,7 +6,7 @@ RUN apk add --no-cache $PHPIZE_DEPS git unzip libzip-dev libpng-dev libjpeg-turb
     && docker-php-ext-enable imagick
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
-COPY composer.json composer.lock ./
+COPY . .
 RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 FROM node:20 AS frontend
