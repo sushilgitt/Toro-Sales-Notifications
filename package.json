@@ -2,13 +2,21 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "node -e \"try{require('fs').unlinkSync('public/hot')}catch(e){}\" && vite build",
         "dev": "vite",
-        "shopify": "shopify",
-        "devs": "shopify app dev",
-        "info": "shopify app info",
-        "generate": "shopify app generate",
-        "deploy": "shopify app deploy"
+        "dev:assets": "node -e \"try{require('fs').unlinkSync('public/hot')}catch(e){}\" && vite build --watch",
+        "dev:app": "concurrently -k -n backend,assets \"php artisan serve --host=127.0.0.1 --port=3458\" \"npm run dev:assets\"",
+        "serve:shopify": "php artisan serve --host=127.0.0.1 --port=3458",
+        "dev:backend": "php artisan serve --host=127.0.0.1 --port=3458",
+        "shopify": "shopify.cmd",
+        "devs": "shopify.cmd app dev",
+        "dev:shopify": "shopify.cmd app dev --config dev",
+        "dev:shopify:ngrok": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/dev-shopify-ngrok.ps1",
+        "dev:shopify:localhost": "shopify.cmd app dev --use-localhost --config dev",
+        "dev:shopify:clean": "shopify.cmd app dev clean --config dev",
+        "info": "shopify.cmd app info",
+        "generate": "shopify.cmd app generate",
+        "deploy": "shopify.cmd app deploy"
     },
     "devDependencies": {
         "autoprefixer": "^10.4.20",

@@ -25,52 +25,50 @@ class MetafieldHelper
         return $response['body']['data']['shop']['id'] ?? null;
     }
 
-public function getShopifyFunctions(User $user): ?string
-{
-    Log::info('Fetching Shopify Functions');
+    public function getShopifyFunctions(User $user): ?string
+    {
+        Log::info('Fetching Shopify Functions');
 
-    $query = <<<GRAPHQL
-    query {
-        shopifyFunctions(first: 100) {
-            nodes {
-                id
-                title
-                apiType
+        $query = <<<GRAPHQL
+        query {
+            shopifyFunctions(first: 100) {
+                nodes {
+                    id
+                    title
+                    apiType
+                }
             }
         }
-    }
-    GRAPHQL;
+        GRAPHQL;
 
-    $response = $user->api()->graph($query);
-    Log::info('GraphQL response', [
-        'response' => $response
-    ]);
+        $response = $user->api()->graph($query);
+        Log::info('GraphQL response', [
+            'response' => $response
+        ]);
 
-    $nodes = json_decode(json_encode($response['body']['data']['shopifyFunctions']['nodes']), true);
+        $nodes = json_decode(json_encode($response['body']['data']['shopifyFunctions']['nodes']), true);
 
-    Log::info('All Shopify Functions', $nodes);
+        Log::info('All Shopify Functions', $nodes);
 
-    $functionId = null;
+        $functionId = null;
 
-    foreach ($nodes as $func) {
-        if (($func['apiType'] ?? '') === 'delivery_customization') {
-            $functionId = $func['id'];
-            break;
+        foreach ($nodes as $func) {
+            if (($func['apiType'] ?? '') === 'delivery_customization') {
+                $functionId = $func['id'];
+                break;
+            }
         }
+
+        if ($functionId) {
+            Log::info('Shopify Function ID found', ['function_id' => $functionId]);
+        } else {
+            Log::error('Delivery Function ID not found');
+        }
+
+        return $functionId;
     }
 
-    if ($functionId) {
-        Log::info('Shopify Function ID found', ['function_id' => $functionId]);
-    } else {
-        Log::error('Delivery Function ID not found');
-    }
-
-    return $functionId;
-}
-
-
-
-public function createDeliveryCustomization(User $user, array $metafieldData ,Shipping $shipping): ?string
+    public function createDeliveryCustomization(User $user, array $metafieldData ,Shipping $shipping): ?string
     {
         info('createdelivery');
         $functionId = $this->getShopifyFunctions($user);
@@ -149,22 +147,22 @@ public function createDeliveryCustomization(User $user, array $metafieldData ,Sh
         $response = $user->api()->graph($mutation, $variables);
         $responseArray = json_decode(json_encode($response), true);
 
-    Log::info('Shopify deliveryCustomizationUpdate response', [
-        'response' => $responseArray,
-        'user_id' => $user->id
-    ]);
-
-    $errors = $responseArray['body']['data']['deliveryCustomizationUpdate']['userErrors'] ?? [];
-
-    if (!empty($errors)) {
-        Log::error('Shopify deliveryCustomizationUpdate failed', [
-            'errors' => $errors,
+        Log::info('Shopify deliveryCustomizationUpdate response', [
+            'response' => $responseArray,
             'user_id' => $user->id
         ]);
-        return false;
-    }
 
-    return true;
+        $errors = $responseArray['body']['data']['deliveryCustomizationUpdate']['userErrors'] ?? [];
+
+        if (!empty($errors)) {
+            Log::error('Shopify deliveryCustomizationUpdate failed', [
+                'errors' => $errors,
+                'user_id' => $user->id
+            ]);
+            return false;
+        }
+
+        return true;
     }
 
     public function deleteDeliveryCustomization(User $user, string $deliveryCustomizationId): bool
@@ -199,7 +197,5 @@ public function createDeliveryCustomization(User $user, array $metafieldData ,Sh
 
         return $deletedId !== null;
     }
-
-
 
 }

@@ -24,6 +24,7 @@ import { CaretDownIcon, CaretUpIcon } from "@shopify/polaris-icons";
 import { useSearchParams } from "react-router-dom";
 import { democouponpage } from "/public/images-icon";
 import Blockpromo from "../components/dashboard/blockpromo";
+import Schedule from "../components/dashboard/Schedule";
 // import { getNonEmbedBlockLink } from "../utils/helper";
 
 export default function IndexPage() {
@@ -99,7 +100,7 @@ const [appstatues, setAppstatues] = useState(false);
     return (
         <Page>
             <Text variant="headingXl" as="h4">
-                Hi 👋, Welcome to TORO Sales Popup Notifications 
+                Hi 👋, Welcome to TORO Sales Popup Notifications
             </Text>
 
 
@@ -425,6 +426,9 @@ const [appstatues, setAppstatues] = useState(false);
                         </Collapsible>
                     </BlockStack>
                 </Card>
+            </Box>
+             <Box paddingBlockStart="200">
+                <Schedule/>
             </Box>
 
             <Box paddingBlockStart="200">

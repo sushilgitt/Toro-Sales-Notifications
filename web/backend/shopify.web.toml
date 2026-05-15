@@ -1,0 +1,6 @@
+roles = ["backend"]
+auth_callback_path = "/authenticate"
+port = 3458
+
+[commands]
+dev = "npm run dev:app"

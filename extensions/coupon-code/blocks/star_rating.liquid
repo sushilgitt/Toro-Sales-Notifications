@@ -14,7 +14,11 @@
 <input type="hidden" id="host_url" data-url="{{ shop.url }}{{ current_url | strip_newlines | strip }}"
   value="{{ shop.url }}{{current_url | strip_newlines }}" />
 
-<script>
+<script>              
+
+  const metafiled = {{ shop.metafields.shipping_banner.config.value | json  }}
+  console.log('metafiled');
+  console.log(metafiled);
   var mcAppData = {
     "shop": "{{ shop.permanent_domain }}"
   };
@@ -40,14 +44,14 @@
   const bg7 = "{{ 'bg7.jpg' | asset_url }}";
   const bg8 = "{{ 'bg8.jpg' | asset_url }}";
   const bg9 = "{{ 'bg9.jpg' | asset_url }}";
+  const couponCodeAppBaseUrl = {{ block.settings.app_base_url | json }} || "https://127.0.0.1:3458";
 
    var shopCurrencySymbol = {{ cart.currency.symbol | json }};
    console.log('shopsymbol',shopCurrencySymbol);
   
 </script>
 
-
-<script src="https://keno-roman-highs-doctor.trycloudflare.com/js/CouponCodeHelper.js" defer></script>
+<script src="{{ 'coupon-code.js' | asset_url }}" defer></script>
 
 <input type="hidden" id="brand-description" data-description="{{ shop.brand.short_description }}">
 
@@ -61,8 +65,12 @@
   "enabled_on": {
   "templates": ["index", "product","cart","collection"]
   },
-  "settings": []
+  "settings": [
+    {
+      "type": "url",
+      "id": "app_base_url",
+      "label": "App Base URL"
+    }
+  ]
 }
 {% endschema %}
-
-

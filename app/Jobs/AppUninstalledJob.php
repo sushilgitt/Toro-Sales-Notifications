@@ -4,6 +4,7 @@ use App\Models\Banner;
 use App\Models\Customize;
 use App\Models\Display;
 use App\Models\MainSetting;
+use App\Models\Shipping;
 use App\Models\Triggers;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
@@ -65,6 +66,7 @@ class AppUninstalledJob implements ShouldQueue
                 Display::where('shop', $user->name)->delete();
                 MainSetting::where('shop', $user->name)->delete();
                 Triggers::where('shop', $user->name)->delete();
+                Shipping::where('shop',$user->name)->delete();
                 $user->delete();
 
             } else {

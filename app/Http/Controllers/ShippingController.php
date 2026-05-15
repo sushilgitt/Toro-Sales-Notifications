@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helper\MetafieldHelper;
+use App\Helper\ShippingHelper;
 use App\Models\Shipping;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -65,55 +66,74 @@ class ShippingController extends Controller
     // }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'details' => 'required|array',
-        'details.shippingamount' => 'required',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'details' => 'required|array',
+            'details.shippingamount' => 'required',
+        ]);
 
-    $user = Auth::user();
+        $user = Auth::user();
 
-    $start = $request->details['startdate'] ?? null;
-    $end = $request->details['enddate'] ?? null;
+        $start = $request->details['startdate'] ?? null;
+        $end = $request->details['enddate'] ?? null;
 
-    $today = now();
-    $startDate = $start ? \Carbon\Carbon::parse($start)->startOfDay() : null;
-    $endDate   = $end ? \Carbon\Carbon::parse($end)->endOfDay() : null;
-    $shippingActive = $startDate && $endDate ? $today->between($startDate, $endDate, true) : false;
+        $today = now();
+        $startDate = $start ? \Carbon\Carbon::parse($start)->startOfDay() : null;
+        $endDate   = $end ? \Carbon\Carbon::parse($end)->endOfDay() : null;
+        $shippingActive = $startDate && $endDate ? $today->between($startDate, $endDate, true) : false;
 
-    $shipping = Shipping::updateOrCreate(
-        ['shop' => $user->name, 'name' => $request->name], 
-        [
-            'details' => json_encode($request->details),
+        $shipping = Shipping::updateOrCreate(
+            ['shop' => $user->name], 
+            [
+                'name' => $request->name,
+                'details' => json_encode($request->details),
+                'shipping' => $shippingActive,
+            ]
+        );
+
+        $shippingData = [
+            'shop' => $user->name,
+            'name' => $request->name,
             'shipping' => $shippingActive,
-        ]
-    );
+            'deliverycustomizationid' => $request->details['deliverycustomizationid'] ?? '',
+            'details' => $request->details,
+        ];
 
-    $metafieldData = [
-        'shipping' => $shipping->shipping,
-        'shippingamount' => $request->details['shippingamount'],
-        'startdate' => $request->details['startdate'] ?? null,
-        'enddate' => $request->details['enddate'] ?? null,
-    ];
+        $shippingHelper = new ShippingHelper();
+        $success = $shippingHelper->saveShippingMetafield($user, $shippingData);
 
-    $helper = new MetafieldHelper();
-
-    if ($shipping->deliverycustomizationid) {
-        $helper->updateDeliveryCustomization($user, $shipping->deliverycustomizationid, $metafieldData, $shipping);
-    } else {
-        $shopifyId = $helper->createDeliveryCustomization($user, $metafieldData, $shipping);
-        if ($shopifyId) {
-            $shipping->update(['deliverycustomizationid' => $shopifyId]);
+        if (!$success) {
+            Log::error('Failed to save shipping/banner metafield', ['data' => $shippingData]);
+        } else {
+            Log::info('Shipping/banner metafield stored successfully', ['data' => $shippingData]);
         }
-    }
 
-    return response()->json([
-        'status' => 'success',
-        'message' => 'Shipping/banner saved successfully',
-        'data' => $shipping,
-    ]);
-}
+        $metafieldData = [
+            'shipping' => $shipping->shipping,
+            'shippingamount' => $request->details['shippingamount'],
+            'startdate' => $request->details['startdate'] ?? null,
+            'enddate' => $request->details['enddate'] ?? null,
+        ];
+
+
+        $helper = new MetafieldHelper();
+
+        if ($shipping->deliverycustomizationid) {
+            $helper->updateDeliveryCustomization($user, $shipping->deliverycustomizationid, $metafieldData, $shipping);
+        } else {
+            $shopifyId = $helper->createDeliveryCustomization($user, $metafieldData, $shipping);
+            if ($shopifyId) {
+                $shipping->update(['deliverycustomizationid' => $shopifyId]);
+            }
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Shipping/banner saved successfully',
+            'data' => $shipping,
+        ]);
+    }
 
     public function getdata()
     {
@@ -154,7 +174,6 @@ class ShippingController extends Controller
 
     public function getById()
     {
-
         $userId = Auth::id();
         $user = User::find($userId)->name;
 

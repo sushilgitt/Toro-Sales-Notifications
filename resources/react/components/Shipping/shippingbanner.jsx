@@ -213,6 +213,16 @@ function BannerContent() {
         return;
     }
 
+    if (!bannerData.startdate) {
+        shopify.toast.show("Please select a start date", { isError: true });
+        return;
+    }
+
+    if (!bannerData.enddate) {
+        shopify.toast.show("Please select an end date", { isError: true });
+        return;
+    }
+
     const payload = {
         name: bannerData.shippingname,
         details: {

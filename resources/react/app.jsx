@@ -1,4 +1,3 @@
-import { NavMenu } from '@shopify/app-bridge-react';
 import { AppProvider } from '@shopify/polaris';
 import React, { StrictMode } from 'react';
 import ReactDOM, { createRoot } from 'react-dom/client';
@@ -12,11 +11,6 @@ import '@shopify/polaris/build/esm/styles.css';
 	    return (
 		<AppProvider i18n={enTranslations}>
 		    <Router>
-		        <NavMenu>
-		            <a href="/coupon">Notifications</a>
-					<a href="/bannerlist">Banner</a>
-					<a href="/shipping/create">Shipping Banner</a>
-		        </NavMenu>
 		        <AppRoute />
 		    </Router>
 		</AppProvider>

@@ -10,8 +10,12 @@ class ThemeController extends Controller
 {
     public function getThemeFile(Request $request)
     {
-        $shopname = User::where('id', Auth::id())->first()->name;
         $user = User::where('id', Auth::id())->first();
+        if (! $user) {
+            return response()->json(['appStatus' => false], 404);
+        }
+
+        $shopname = $user->name;
         $api = $user->api();
         $access_token = User::where('name', $shopname)->first()->password;
         $query = 'query {
@@ -28,7 +32,17 @@ class ThemeController extends Controller
 
         $response = $api->graph($query);
         $data = json_decode(json_encode($response), true);
-        $id = $data['body']['data']['themes']['edges'][0]['node']['id'];
+        $themes = $data['body']['data']['themes']['edges']
+            ?? $data['data']['themes']['edges']
+            ?? [];
+        $id = $themes[0]['node']['id'] ?? null;
+
+        if (! $id) {
+            return response()->json([
+                'appStatus' => false,
+                'message' => 'Main theme not found.',
+            ], 200);
+        }
         $query = 'query ($themeId: ID!, $fileNames: [String!], $fileLimit: Int) {
                 theme(id: $themeId) {
                     id
@@ -53,10 +67,9 @@ class ThemeController extends Controller
 
         $response = $api->graph($query, $variables);
         $data = json_decode(json_encode($response), true);
-        $html = '[]';
-        if (isset($data['body']['data']['theme']['files']['nodes'][0]['body']['content'])) {
-            $html = $data['body']['data']['theme']['files']['nodes'][0]['body']['content'];
-        }
+        $html = $data['body']['data']['theme']['files']['nodes'][0]['body']['content']
+            ?? $data['data']['theme']['files']['nodes'][0]['body']['content']
+            ?? '[]';
         $json_string = preg_replace('/\/\*.*?\*\//s', '', $html);
         $json_array = json_decode($json_string, true);
         $current = isset($json_array['current']) ? $json_array['current'] : [];

@@ -7,9 +7,14 @@ function myJQueryCode() {
     // console.log("host", $brand_img.src);
     // console.log("mcAppData", mcAppData);
 
+    const appBaseUrl = (window.couponCodeAppBaseUrl || "").replace(/\/$/, "");
+    if (!appBaseUrl) {
+        console.warn("Coupon Code app base URL is not configured.");
+        return;
+    }
+
     fetch(
-        // "https://coupon.magecomp.net/api/coupon_data",
-        "https://coupon.magecomp.net/api/coupon_data",
+        `${appBaseUrl}/api/coupon_data`,
         {
             method: "POST",
             body: JSON.stringify(mcAppData),
@@ -865,4 +870,3 @@ if (typeof jQuery == "undefined") {
 } else {
     myJQueryCode();
 }
-

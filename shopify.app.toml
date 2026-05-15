@@ -1,12 +1,13 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "a377f17e6d57d29d41b135378b0df9a5"
-application_url = "https://keno-roman-highs-doctor.trycloudflare.com/"
+client_id = "e81e4482bc5146ee7af1f7b4472cd7b1"
+name = "TORO Sales Notifications"
+application_url = "https://coupon.magecomp.net/"
 embedded = true
-name = "coupon-code"
-handle = "coupon-code-20"
+handle = "coupon-code-8"
 
 [build]
+automatically_update_urls_on_dev = true
 
 [webhooks]
 api_version = "2025-04"
@@ -25,13 +26,10 @@ api_version = "2025-04"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_delivery_customizations,read_payment_customizations,read_draft_orders,read_orders,read_fulfillments,read_products,read_customers,write_orders,read_merchant_managed_fulfillment_orders,read_assigned_fulfillment_orders,read_third_party_fulfillment_orders,read_themes"
+scopes = "read_assigned_fulfillment_orders,read_customers,read_draft_orders,read_fulfillments,read_merchant_managed_fulfillment_orders,read_orders,read_payment_customizations,read_products,read_themes,read_third_party_fulfillment_orders,write_delivery_customizations,write_orders"
 
 [auth]
-redirect_urls = [
-  "https://keno-roman-highs-doctor.trycloudflare.com/authenticate"
-]
+redirect_urls = [ "https://coupon.magecomp.net/authenticate" ]
 
 [pos]
 embedded = false
-

@@ -5,7 +5,8 @@ import {
   Text,
   useApi,
   useSubscription,
-  useShop
+  useShop,
+  useAppMetafields
 } from '@shopify/ui-extensions-react/checkout';
 import { useEffect, useState } from 'react';
 
@@ -23,35 +24,32 @@ function Extension() {
   const [shippingRule, setShippingRule] = useState(null);
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const appMetafields = useAppMetafields();
+  
 
-  useEffect(() => {
-    async function fetchShippingRule() {
+ useEffect(() => {
+    const configEntry = appMetafields.find(
+      (entry) =>
+        entry.target.type === 'shop' &&
+        entry.metafield.namespace === 'shipping_banner' &&
+        entry.metafield.key === 'config'
+    );
+    
+
+    if (configEntry?.metafield?.value) {
       try {
-        const res = await fetch(
-          'https://keno-roman-highs-doctor.trycloudflare.com/api/coupon_data',
-          { method: 'POST', 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-            shop: shop.myshopifyDomain, 
-          }),
-          }
-        );
-
-        const data = await res.json();
-
-        if (data?.shippingbanner?.length) {
-          const parsedDetails = JSON.parse(data.shippingbanner[0].details);
-          setShippingRule(parsedDetails);
+        const parsed = JSON.parse(configEntry.metafield.value);
+        
+        if (parsed.shipping_active === true) {
+          setShippingRule(parsed.details); 
         }
       } catch (error) {
-        console.error('Shipping banner fetch error:', error);
-      } finally {
-        setLoading(false);
+        console.error('Failed to parse shipping_banner.config metafield:', error);
       }
     }
 
-    fetchShippingRule();
-  }, []);
+    setLoading(false);
+  }, [appMetafields]);
 
   function getCurrencySymbol(currencyCode) {
   const formatter = new Intl.NumberFormat(undefined, {

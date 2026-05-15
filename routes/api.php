@@ -36,7 +36,7 @@ Route::post('/status',[MainSettingController::class, 'status'])->name('status');
 
 Route::get('/getdatacount',[MainSettingController::class,'getdatacount'])->name('getdatacount')->middleware('verify.shopify');
 
-Route::POST('/plan-select',[PlanController::class, 'planselect'])->name('planselect')->middleware('shopify.auth');
+Route::post('/plan-select',[PlanController::class, 'planSelect'])->name('planselect')->middleware('shopify.auth');
 
 Route::get('/shopify-plan', [PlanController::class, 'getShopifyPlan'])->middleware('shopify.auth');
 
@@ -65,6 +65,3 @@ Route::get('/shippingbanner',[ShippingController::class,'getById'])->middleware(
 Route::put('/shipping/{id}', [ShippingController::class, 'update'])->middleware('verify.shopify');
 Route::delete('/shipping/{id}', [ShippingController::class, 'destroy'])->middleware('verify.shopify');
 Route::get('/shop/currency', [ShippingController::class, 'getShopCurrency'])->middleware('verify.shopify');
-
-
-

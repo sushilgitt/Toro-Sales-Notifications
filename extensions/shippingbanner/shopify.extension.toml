@@ -11,6 +11,10 @@ handle = "shippingbanner"
 type = "ui_extension"
 uid = "db17c6a1-5887-fe0e-73c1-054c92e24c1ca3391f4b"
 
+[[extensions.metafields]]
+namespace = "shipping_banner"
+key = "config"
+
 # Controls where in Shopify your extension will be injected,
 # and the file that contains your extension’s source code. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/extension-targets-overview

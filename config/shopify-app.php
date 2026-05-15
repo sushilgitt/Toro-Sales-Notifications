@@ -273,7 +273,23 @@ return [
     |
     */
 
-    'api_init' => null,
+    'api_init' => static function (
+        \Gnikyt\BasicShopifyAPI\Options $options,
+        \Gnikyt\BasicShopifyAPI\Session $session = null
+    ) {
+        if (! env('SHOPIFY_SSL_VERIFY', true)) {
+            $options->setGuzzleOptions([
+                'verify' => false,
+            ]);
+        }
+
+        return new \Gnikyt\BasicShopifyAPI\BasicShopifyAPI(
+            $options,
+            new (env('SHOPIFY_API_TIME_STORE', \Gnikyt\BasicShopifyAPI\Store\Memory::class))(),
+            new (env('SHOPIFY_API_LIMIT_STORE', \Gnikyt\BasicShopifyAPI\Store\Memory::class))(),
+            new (env('SHOPIFY_API_DEFERRER', \Gnikyt\BasicShopifyAPI\Deferrers\Sleep::class))()
+        );
+    },
 
     /*
     |--------------------------------------------------------------------------
@@ -387,7 +403,10 @@ return [
     'webhooks' => [
             [
                 'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'APP_UNINSTALLED'),
-                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', 'https://coupon.magecomp.net/webhook/app-uninstalled')
+                'address' => env('SHOPIFY_WEBHOOK_1_ADDRESS', env('APP_URL').'/webhook/app-uninstalled')
+            ], [
+                'topic' => env('SHOPIFY_WEBHOOK_2_TOPIC', 'APP_SUBSCRIPTIONS_UPDATE'),
+                'address' => env('SHOPIFY_WEBHOOK_2_ADDRESS', env('APP_URL').'/webhook/app-subscriptions-update'),
             ],
         /*
             [

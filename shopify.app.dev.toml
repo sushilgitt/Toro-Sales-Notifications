@@ -1,0 +1,40 @@
+# Dev-only config for `shopify app dev`.
+# Shopify CLI replaces these placeholder URLs with a temporary preview URL
+# for the selected development store during local development.
+
+client_id = "e81e4482bc5146ee7af1f7b4472cd7b1"
+name = "TORO Sales Notifications"
+application_url = "https://example.com/"
+embedded = true
+handle = "coupon-code-8"
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2025-04"
+
+  [[webhooks.subscriptions]]
+  uri = "/webhook/customers-data-request"
+  compliance_topics = [ "customers/data_request" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhook/customers-redact"
+  compliance_topics = [ "customers/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhook/shop-redact"
+  compliance_topics = [ "shop/redact" ]
+
+  [[webhooks.subscriptions]]
+  uri = "/webhook/app-subscriptions-update"
+  topics = [ "app_subscriptions/update" ]
+
+[access_scopes]
+scopes = "read_assigned_fulfillment_orders,read_customers,read_draft_orders,read_fulfillments,read_merchant_managed_fulfillment_orders,read_orders,read_payment_customizations,read_products,read_themes,read_third_party_fulfillment_orders,write_delivery_customizations,write_orders"
+
+[auth]
+redirect_urls = [ "https://example.com/authenticate" ]
+
+[pos]
+embedded = false

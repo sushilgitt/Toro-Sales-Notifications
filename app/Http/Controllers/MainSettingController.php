@@ -43,13 +43,13 @@ class MainSettingController extends Controller
             ->get();
 
         $countdown = Banner::where('shop', $shop)->get();
-        $shippingbanner = Shipping::where('shop',$shop)->get();
-        info($shippingbanner->toArray());
+        // $shippingbanner = Shipping::where('shop',$shop)->get();
+        // info($shippingbanner->toArray());
 
         return response()->json([
             'mainSettings' => $mainSettings,
             'countdown' => $countdown,
-            'shippingbanner' => $shippingbanner,
+            // 'shippingbanner' => $shippingbanner,
         ]);
     }
 

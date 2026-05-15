@@ -6,10 +6,15 @@ function myJQueryCode() {
     // console.log("host", $brand_img.src);
     // console.log("mcAppData", mcAppData);
 
+    
+    const appBaseUrl = (window.couponCodeAppBaseUrl || "").replace(/\/$/, "");
+    if (!appBaseUrl) {
+        console.warn("Coupon Code app base URL is not configured.");
+        return;
+    }
 
     fetch(
-        // "https://coupon.magecomp.net/api/coupon_data",
-        "https://keno-roman-highs-doctor.trycloudflare.com/api/coupon_data",
+        `${appBaseUrl}/api/coupon_data`,
         {
             method: "POST",
             body: JSON.stringify(mcAppData),
@@ -874,84 +879,157 @@ function myJQueryCode() {
                 });
             }
 
-            const { shippingbanner } = data;
+            // const { shippingbanner } = data;
 
-            const currentUrl = window.location.href;
-            const currentPath = window.location.pathname.toLowerCase();
-            if (data && Array.isArray(shippingbanner)) {
+            // const currentUrl = window.location.href;
+            // const currentPath = window.location.pathname.toLowerCase();
+            // if (data && Array.isArray(shippingbanner)) {
+            //     const today = new Date();
+            //     today.setHours(0,0,0,0);
+            //     shippingbanner.forEach((banner, index) => {
+            //         const parentDiv = "body"; 
+            //         const details = banner.details ? JSON.parse(banner.details) : {};
+
+            //         const startDate = details.startdate ? new Date(details.startdate) : null;
+            //         if (startDate) startDate.setHours(0,0,0,0);
+                    
+            //         const endDate = details.enddate ? new Date(details.enddate) : null;
+            //         if (endDate) endDate.setHours(0,0,0,0);
+
+            //         if ((startDate && today < startDate) || (endDate && today > endDate)) {
+            //             return;
+            //         }
+
+            //         if (details.showpageurl && !currentUrl.includes(details.showpageurl)) {
+            //             return;
+            //         }
+            //         if (details.hidepageurl && currentUrl.includes(details.hidepageurl)) {
+            //             return;
+            //         }
+
+            //         if (Array.isArray(details.selectedTags) && details.selectedTags.length > 0) {
+            //             const pageMatched = details.selectedTags.some(tag => {
+            //                 if (tag.toLowerCase() === 'home') return currentPath === '/' || currentPath === '/index.html';
+            //                 return currentPath.includes(tag.toLowerCase());
+            //             });
+
+            //             if (!pageMatched) {
+            //                 return;
+            //             }
+            //         }
+
+            //         let justifyContent = 'center';
+            //         if (details.alignment === 'left') justifyContent = 'flex-start';
+            //         else if (details.alignment === 'right') justifyContent = 'flex-end';
+
+            //         const bannerHtml = `
+            //             <div id="shipping-banner-${index}" class="shipping-banner" 
+            //                 style="
+            //                     position: fixed; 
+            //                     ${details.bannerpos === 'bottom' ? 'bottom: 0;' : 'top: 0;'} 
+            //                     left: 0; right: 0;
+            //                     width: 100%;
+            //                     height: ${details.height || 60}px;
+            //                     z-index: 999999;
+            //                     background-color: ${details.bgcolor || '#f0f8ff'};
+            //                     display: flex;
+            //                     align-items: center;
+            //                     justify-content: ${justifyContent};
+            //                     padding: 0 20px;
+            //                     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            //                     font-size: ${details.fontsize || 16}px;
+            //                     color: ${details.txtcolor || '#000'};
+            //                     font-weight: bold;
+            //                 ">
+            //                 <span>
+            //                     ${details.shippingcontent || ''} 
+            //                     <span style="
+            //                         font-size: ${details.amountsize || details.fontsize || 16}px;
+            //                         color: ${details.amountcolor || details.txtcolor || '#000'};
+            //                         font-weight: bold;
+            //                     ">
+            //                         ${shopCurrencySymbol}${details.shippingamount || ''}
+            //                     </span>
+            //                 </span>
+            //             </div>
+            //         `;
+
+            //         $(parentDiv).append(bannerHtml);
+            //     });
+            // }
+
+                const shippingbanner = Array.isArray(metafiled) ? metafiled : [metafiled];
+                const currentUrl = window.location.href;
+                const currentPath = window.location.pathname.toLowerCase();
                 const today = new Date();
                 today.setHours(0,0,0,0);
-                shippingbanner.forEach((banner, index) => {
-                    const parentDiv = "body"; 
-                    const details = banner.details ? JSON.parse(banner.details) : {};
 
-                    const startDate = details.startdate ? new Date(details.startdate) : null;
-                    if (startDate) startDate.setHours(0,0,0,0);
-                    
-                    const endDate = details.enddate ? new Date(details.enddate) : null;
-                    if (endDate) endDate.setHours(0,0,0,0);
+                if (shippingbanner && shippingbanner.length > 0) {
+                    shippingbanner.forEach((banner, index) => {
+                        if (!banner.shipping_active) return; 
 
-                    if ((startDate && today < startDate) || (endDate && today > endDate)) {
-                        return;
-                    }
+                        const parentDiv = "body"; 
+                        const details = banner.details ? banner.details : {};
 
-                    if (details.showpageurl && !currentUrl.includes(details.showpageurl)) {
-                        return;
-                    }
-                    if (details.hidepageurl && currentUrl.includes(details.hidepageurl)) {
-                        return;
-                    }
+                        const startDate = details.startdate ? new Date(details.startdate) : null;
+                                    if (startDate) startDate.setHours(0,0,0,0);
+                                    
+                                    const endDate = details.enddate ? new Date(details.enddate) : null;
+                                    if (endDate) endDate.setHours(0,0,0,0);
 
-                    if (Array.isArray(details.selectedTags) && details.selectedTags.length > 0) {
-                        const pageMatched = details.selectedTags.some(tag => {
-                            if (tag.toLowerCase() === 'home') return currentPath === '/' || currentPath === '/index.html';
-                            return currentPath.includes(tag.toLowerCase());
-                        });
+                                    if ((startDate && today < startDate) || (endDate && today > endDate)) {
+                                        return;
+                                    }
+                        if (details.showpageurl && !currentUrl.includes(details.showpageurl)) return;
+                        if (details.hidepageurl && currentUrl.includes(details.hidepageurl)) return;
 
-                        if (!pageMatched) {
-                            return;
+                        if (Array.isArray(details.selectedTags) && details.selectedTags.length > 0) {
+                            const pageMatched = details.selectedTags.some(tag => {
+                                if (tag.toLowerCase() === 'home') return currentPath === '/' || currentPath === '/index.html';
+                                return currentPath.includes(tag.toLowerCase());
+                            });
+                            if (!pageMatched) return;
                         }
-                    }
 
-                    let justifyContent = 'center';
-                    if (details.alignment === 'left') justifyContent = 'flex-start';
-                    else if (details.alignment === 'right') justifyContent = 'flex-end';
+                        let justifyContent = 'center';
+                        if (details.alignment === 'left') justifyContent = 'flex-start';
+                        else if (details.alignment === 'right') justifyContent = 'flex-end';
 
-                    const bannerHtml = `
-                        <div id="shipping-banner-${index}" class="shipping-banner" 
-                            style="
-                                position: fixed; 
-                                ${details.bannerpos === 'bottom' ? 'bottom: 0;' : 'top: 0;'} 
-                                left: 0; right: 0;
-                                width: 100%;
-                                height: ${details.height || 60}px;
-                                z-index: 999999;
-                                background-color: ${details.bgcolor || '#f0f8ff'};
-                                display: flex;
-                                align-items: center;
-                                justify-content: ${justifyContent};
-                                padding: 0 20px;
-                                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                                font-size: ${details.fontsize || 16}px;
-                                color: ${details.txtcolor || '#000'};
-                                font-weight: bold;
-                            ">
-                            <span>
-                                ${details.shippingcontent || ''} 
-                                <span style="
-                                    font-size: ${details.amountsize || details.fontsize || 16}px;
-                                    color: ${details.amountcolor || details.txtcolor || '#000'};
+                        const bannerHtml = `
+                            <div id="shipping-banner-${index}" class="shipping-banner" 
+                                style="
+                                    position: fixed; 
+                                    ${details.bannerpos === 'bottom' ? 'bottom: 0;' : 'top: 0;'} 
+                                    left: 0; right: 0;
+                                    width: 100%;
+                                    height: ${details.height || 60}px;
+                                    z-index: 999999;
+                                    background-color: ${details.bgcolor || '#f0f8ff'};
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: ${justifyContent};
+                                    padding: 0 20px;
+                                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                                    font-size: ${details.fontsize || 16}px;
+                                    color: ${details.txtcolor || '#000'};
                                     font-weight: bold;
                                 ">
-                                    ${shopCurrencySymbol}${details.shippingamount || ''}
+                                <span>
+                                    ${details.shippingcontent || ''} 
+                                    <span style="
+                                        font-size: ${details.amountsize || details.fontsize || 16}px;
+                                        color: ${details.amountcolor || details.txtcolor || '#000'};
+                                        font-weight: bold;
+                                    ">
+                                        ${shopCurrencySymbol}${details.shippingamount || ''}
+                                    </span>
                                 </span>
-                            </span>
-                        </div>
-                    `;
+                            </div>
+                        `;
 
-                    $(parentDiv).append(bannerHtml);
-                });
-            }
+                        $(parentDiv).append(bannerHtml);
+                    });
+                }
 
         })
         .catch((error) => console.error("Error fetching data:", error));
@@ -988,4 +1066,3 @@ if (typeof jQuery == "undefined") {
 } else {
     myJQueryCode();
 }
-

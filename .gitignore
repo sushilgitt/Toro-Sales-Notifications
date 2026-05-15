@@ -1,8 +1,10 @@
 /.phpunit.cache
 /node_modules
+/extensions/**/node_modules
 /public/build
 /public/hot
 /public/storage
+/public/adminer.php
 /storage/*.key
 /storage/pail
 /vendor
@@ -22,3 +24,8 @@ yarn-error.log
 /.vscode
 /.zed
 .shopify
+/.tools
+/coupon-code.zip
+/app/Jobs/*.zip
+/bootstrap/*.bak-*
+/shopify.app.toml.bak-*

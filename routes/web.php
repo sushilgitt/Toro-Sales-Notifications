@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlanController;
 use App\Http\Controllers\FrontEndControllr;
 use Illuminate\Support\Facades\Route;
 
@@ -7,8 +8,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
- Route::fallback([FrontEndControllr::class, 'index']);
- Route::get('/', [FrontEndControllr::class, 'index'])->middleware('verify.shopify')->name('home');
+Route::get('/', [FrontEndControllr::class, 'index'])->middleware('verify.shopify')->name('home');
 
 
 Route::post('/webhook/customers-data-request',function(){
@@ -20,3 +20,6 @@ Route::post('/webhook/customers-redact',function(){
 Route::post('/webhook/shop-redact',function(){
     return response('Ok',200);
 });
+Route::post('/webhook/app-subscriptions-update', [PlanController::class, 'subscriptionWebhook']);
+
+Route::fallback([FrontEndControllr::class, 'index']);
