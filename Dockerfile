@@ -1,5 +1,5 @@
 FROM php:8.4-cli-alpine AS vendor
-RUN apk add --no-cache git unzip libzip-dev libpng-dev libjpeg-turbo-dev freetype-dev libwebp-dev libavif-dev libxml2-dev oniguruma-dev icu-dev imagemagick-dev \
+RUN apk add --no-cache $PHPIZE_DEPS git unzip libzip-dev libpng-dev libjpeg-turbo-dev freetype-dev libwebp-dev libavif-dev libxml2-dev oniguruma-dev icu-dev imagemagick-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
     && docker-php-ext-install bcmath exif gd intl mbstring pcntl pdo_mysql zip \
     && pecl install imagick \
@@ -19,7 +19,7 @@ RUN npm run build
 FROM php:8.4-cli-alpine
 ENV PHP_DATE_TIMEZONE=UTC
 WORKDIR /app
-RUN apk add --no-cache git unzip libzip-dev libpng-dev libjpeg-turbo-dev freetype-dev libwebp-dev libavif-dev libxml2-dev oniguruma-dev icu-dev imagemagick-dev \
+RUN apk add --no-cache $PHPIZE_DEPS git unzip libzip-dev libpng-dev libjpeg-turbo-dev freetype-dev libwebp-dev libavif-dev libxml2-dev oniguruma-dev icu-dev imagemagick-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp --with-avif \
     && docker-php-ext-install bcmath exif gd intl mbstring pcntl pdo_mysql zip \
     && pecl install imagick \
