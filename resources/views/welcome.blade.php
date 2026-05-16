@@ -24,9 +24,22 @@
 
 <body>
     <div id="app"></div>
-    
-    @viteReactRefresh
-    @vite('resources/react/app.jsx')
+
+    @if (file_exists(public_path('hot')))
+        @viteReactRefresh
+        @vite('resources/react/app.jsx')
+    @else
+        @php
+            $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+            $entry = $manifest['resources/react/app.jsx'];
+        @endphp
+
+        @foreach ($entry['css'] ?? [] as $css)
+            <link rel="stylesheet" href="{{ asset('build/' . $css) }}">
+        @endforeach
+
+        <script type="module" src="{{ asset('build/' . $entry['file']) }}"></script>
+    @endif
 </body>
 
 </html>
