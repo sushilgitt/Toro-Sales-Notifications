@@ -33,4 +33,4 @@ RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions 
     && composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader \
     && rm -f storage/framework/views/*.php bootstrap/cache/*.php public/hot
 EXPOSE 80
-CMD ["sh", "-lc", "php artisan serve --host=0.0.0.0 --port=80"]
+CMD ["sh", "-lc", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80"]

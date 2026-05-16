@@ -11,14 +11,29 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::create('plans', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->decimal('price', 10, 2)->nullable();
+            $table->string('interval')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password', 100)->nullable();
             $table->rememberToken();
+            $table->boolean('shopify_grandfathered')->default(false);
+            $table->string('shopify_namespace')->nullable();
+            $table->boolean('shopify_freemium')->default(false);
+            $table->unsignedBigInteger('plan_id')->nullable();
+            $table->date('password_updated_at')->nullable();
+            $table->integer('theme_support_level')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -45,5 +60,6 @@ return new class extends Migration
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('plans');
     }
 };
