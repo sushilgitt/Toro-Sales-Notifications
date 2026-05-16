@@ -25,6 +25,7 @@ class FrontEndControllr extends Controller
                         return view('vendor.shopify-app.auth.fullpage_redirect', [
                             'url' => $pricingUrl,
                             'shopDomain' => $shop->name,
+                            'host' => (string) $request->query('host', $request->input('host', '')),
                         ]);
                     }
                 }

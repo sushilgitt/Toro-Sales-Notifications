@@ -11,8 +11,26 @@
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 const redirectUrl = @json($url);
-                const host = @json(request()->query('host', request()->input('host', '')));
+                const host = @json($host ?? request()->query('host', request()->input('host', '')));
                 const apiKey = document.querySelector('meta[name="shopify-api-key"]')?.content;
+                const resolvedHost = (() => {
+                    if (host) {
+                        return host;
+                    }
+
+                    try {
+                        const url = new URL(redirectUrl);
+                        const match = url.pathname.match(/^\/store\/[^/]+/);
+
+                        if (!match) {
+                            return '';
+                        }
+
+                        return btoa(`${url.host}${match[0]}`);
+                    } catch (error) {
+                        return '';
+                    }
+                })();
 
                 if (window.top === window.self) {
                     window.location.assign(redirectUrl);
@@ -28,10 +46,10 @@
                 const createApp = AppBridge?.default;
                 const Redirect = AppBridge?.actions?.Redirect;
 
-                if (createApp && Redirect && host && apiKey) {
+                if (createApp && Redirect && resolvedHost && apiKey) {
                     const app = createApp({
                         apiKey,
-                        host,
+                        host: resolvedHost,
                         forceRedirect: true,
                     });
 
