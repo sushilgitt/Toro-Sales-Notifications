@@ -2,7 +2,7 @@
 
 client_id = "e81e4482bc5146ee7af1f7b4472cd7b1"
 name = "TORO Sales Notifications"
-application_url = "https://coupon.magecomp.net/"
+application_url = "https://z51h99anaijcsck7e2dp4tys.91.239.208.85.sslip.io/"
 embedded = true
 handle = "coupon-code-8"
 
@@ -29,7 +29,7 @@ api_version = "2025-04"
 scopes = "read_assigned_fulfillment_orders,read_customers,read_draft_orders,read_fulfillments,read_merchant_managed_fulfillment_orders,read_orders,read_payment_customizations,read_products,read_themes,read_third_party_fulfillment_orders,write_delivery_customizations,write_orders"
 
 [auth]
-redirect_urls = [ "https://coupon.magecomp.net/authenticate" ]
+redirect_urls = [ "https://z51h99anaijcsck7e2dp4tys.91.239.208.85.sslip.io/authenticate" ]
 
 [pos]
 embedded = false
