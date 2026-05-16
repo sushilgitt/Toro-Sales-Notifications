@@ -191,14 +191,18 @@ export default function Preeview() {
                         ? `url(${imaheurll})`
                         : "none",
                     display: "flex",
-                    justifyContent: "center",
+                    justifyContent:
+                        selectedbanner === "left"
+                            ? "flex-start"
+                            : selectedbanner === "right"
+                              ? "flex-end"
+                              : "center",
                     alignItems: "center",
                     height: rangeValue || "60px",
                     fontSize: fontValue,
                     fontFamily: fontType,
-                    justifyContent: selectedbanner === 'left' ? 'flex-start' :selectedbanner === 'right' ? 'flex-end' :'center',
-                   backgroundOrigin: 'border-box', 
-                   backgroundSize: 'contain', 
+                    backgroundOrigin: "border-box",
+                    backgroundSize: "contain",
                 }}
             >
                 <InlineStack
