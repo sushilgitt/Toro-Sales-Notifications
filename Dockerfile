@@ -29,7 +29,8 @@ RUN apk add --no-cache $PHPIZE_DEPS git unzip libzip-dev libpng-dev libjpeg-turb
 COPY . .
 COPY --from=vendor /app/vendor /app/vendor
 COPY --from=frontend /app/public/build /app/public/build
-RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
+RUN rm -f storage/framework/views/*.php bootstrap/cache/*.php public/hot \
+    && mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
     && chmod -R 777 storage bootstrap/cache
 EXPOSE 80
 CMD ["sh", "-lc", "php artisan serve --host=0.0.0.0 --port=80"]
