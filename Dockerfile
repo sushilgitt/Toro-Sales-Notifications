@@ -5,7 +5,7 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-FROM debian:bookworm-slim AS runtime
+FROM debian:trixie-slim AS runtime
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PHP_DATE_TIMEZONE=UTC
 WORKDIR /app
