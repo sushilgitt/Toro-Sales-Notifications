@@ -30,7 +30,6 @@ COPY . .
 COPY --from=vendor /app/vendor /app/vendor
 COPY --from=frontend /app/public/build /app/public/build
 RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framework/views storage/logs bootstrap/cache \
-    && chown -R www-data:www-data /app
-USER www-data
+    && chmod -R 777 storage bootstrap/cache
 EXPOSE 80
 CMD ["sh", "-lc", "php artisan serve --host=0.0.0.0 --port=80"]

@@ -275,7 +275,7 @@ return [
 
     'api_init' => static function (
         \Gnikyt\BasicShopifyAPI\Options $options,
-        \Gnikyt\BasicShopifyAPI\Session $session = null
+        ?\Gnikyt\BasicShopifyAPI\Session $session = null
     ) {
         if (! env('SHOPIFY_SSL_VERIFY', true)) {
             $options->setGuzzleOptions([
