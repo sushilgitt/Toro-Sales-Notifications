@@ -7,7 +7,9 @@ RUN apk add --no-cache $PHPIZE_DEPS git unzip libzip-dev libpng-dev libjpeg-turb
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
-RUN composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/logs \
+    && chmod -R 777 bootstrap/cache storage storage/framework storage/logs \
+    && composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader
 
 FROM node:20 AS frontend
 WORKDIR /app
