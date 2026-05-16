@@ -19,7 +19,14 @@ class FrontEndControllr extends Controller
                 $billingState = $managedPricingService->syncShop($shop);
 
                 if (($billingState['is_free'] ?? true) && ! $request->boolean('skip_billing')) {
-                    return redirect()->away($billingState['pricing_url']);
+                    $pricingUrl = $billingState['pricing_url'] ?? null;
+
+                    if ($pricingUrl) {
+                        return view('vendor.shopify-app.auth.fullpage_redirect', [
+                            'url' => $pricingUrl,
+                            'shopDomain' => $shop->name,
+                        ]);
+                    }
                 }
             } catch (\Throwable $exception) {
                 Log::warning('Unable to resolve managed pricing state for app shell.', [

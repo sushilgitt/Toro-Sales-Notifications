@@ -9,8 +9,8 @@ return [
 
     'preferred_statuses' => [
         'ACTIVE',
-        'PENDING',
         'ACCEPTED',
+        'PENDING',
     ],
 
     'plan_aliases' => [

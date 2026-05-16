@@ -11,13 +11,35 @@
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 const redirectUrl = @json($url);
+                const host = @json(request()->query('host', request()->input('host', '')));
+                const apiKey = document.querySelector('meta[name="shopify-api-key"]')?.content;
 
                 if (window.top === window.self) {
                     window.location.assign(redirectUrl);
                     return;
                 }
 
-                open(redirectUrl, '_top');
+                if (window.shopify?.open) {
+                    window.shopify.open(redirectUrl, '_top');
+                    return;
+                }
+
+                const AppBridge = window['app-bridge'];
+                const createApp = AppBridge?.default;
+                const Redirect = AppBridge?.actions?.Redirect;
+
+                if (createApp && Redirect && host && apiKey) {
+                    const app = createApp({
+                        apiKey,
+                        host,
+                        forceRedirect: true,
+                    });
+
+                    Redirect.create(app).dispatch(Redirect.Action.REMOTE, redirectUrl);
+                    return;
+                }
+
+                window.location.assign(redirectUrl);
             });
         </script>
     </head>

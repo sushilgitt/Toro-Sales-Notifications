@@ -57,10 +57,13 @@ class ManagedPricingService
         $subscription = $this->pickSubscription($subscriptions);
         $partnerDevelopment = (bool) Arr::get($data, 'shop.plan.partnerDevelopment', false);
         $shopPlanName = Arr::get($data, 'shop.plan.displayName', 'Free');
+        $subscriptionStatus = Arr::get($subscription, 'status');
+        $hasPaidSubscription = in_array($subscriptionStatus, ['ACTIVE', 'ACCEPTED'], true);
 
-        $planName = $subscription['name'] ?? ($partnerDevelopment ? 'Development' : 'Free');
+        $planName = $hasPaidSubscription
+            ? ($subscription['name'] ?? 'Paid')
+            : ($partnerDevelopment ? 'Development' : 'Free');
         $planHandle = $this->normalizePlanHandle($planName);
-        $hasPaidSubscription = $subscription !== null;
         $planId = $this->resolvePlanId($planHandle, null, $hasPaidSubscription, $partnerDevelopment);
         $isFree = ! $hasPaidSubscription;
         $currentPeriodEnd = Arr::get($subscription, 'currentPeriodEnd');
@@ -69,7 +72,7 @@ class ManagedPricingService
             'managed_pricing_subscription_id' => Arr::get($subscription, 'id'),
             'managed_pricing_plan_name' => $planName,
             'managed_pricing_plan_handle' => $planHandle,
-            'managed_pricing_status' => Arr::get($subscription, 'status', $partnerDevelopment ? 'DEVELOPMENT' : 'FREE'),
+            'managed_pricing_status' => $subscriptionStatus ?? ($partnerDevelopment ? 'DEVELOPMENT' : 'FREE'),
             'managed_pricing_current_period_end' => $currentPeriodEnd ? Carbon::parse($currentPeriodEnd) : null,
             'managed_pricing_last_synced_at' => now(),
         ])->save();
