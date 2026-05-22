@@ -18,7 +18,7 @@ class FrontEndControllr extends Controller
             try {
                 $billingState = $managedPricingService->syncShop($shop);
 
-                if (($billingState['is_free'] ?? true) && ! $request->boolean('skip_billing')) {
+                if (($billingState['requires_billing'] ?? true) && ! $request->boolean('skip_billing')) {
                     $pricingUrl = $billingState['pricing_url'] ?? null;
 
                     if ($pricingUrl) {

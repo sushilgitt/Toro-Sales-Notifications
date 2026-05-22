@@ -3,34 +3,11 @@
     <head>
         <meta charset="utf-8">
         <base target="_top">
-        <meta name="shopify-api-key" content="{{ \Osiset\ShopifyApp\Util::getShopifyConfig('api_key', $shopDomain ?? Auth::user()->name ) }}" />
-        <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
-
         <title>Redirecting...</title>
 
         <script type="text/javascript">
             document.addEventListener('DOMContentLoaded', function () {
                 const redirectUrl = @json($url);
-                const host = @json($host ?? request()->query('host', request()->input('host', '')));
-                const apiKey = document.querySelector('meta[name="shopify-api-key"]')?.content;
-                const resolvedHost = (() => {
-                    if (host) {
-                        return host;
-                    }
-
-                    try {
-                        const url = new URL(redirectUrl);
-                        const match = url.pathname.match(/^\/store\/[^/]+/);
-
-                        if (!match) {
-                            return '';
-                        }
-
-                        return btoa(`${url.host}${match[0]}`);
-                    } catch (error) {
-                        return '';
-                    }
-                })();
 
                 if (window.top === window.self) {
                     window.location.assign(redirectUrl);
@@ -42,22 +19,12 @@
                     return;
                 }
 
-                const AppBridge = window['app-bridge'];
-                const createApp = AppBridge?.default;
-                const Redirect = AppBridge?.actions?.Redirect;
-
-                if (createApp && Redirect && resolvedHost && apiKey) {
-                    const app = createApp({
-                        apiKey,
-                        host: resolvedHost,
-                        forceRedirect: true,
-                    });
-
-                    Redirect.create(app).dispatch(Redirect.Action.REMOTE, redirectUrl);
+                try {
+                    window.top.location.href = redirectUrl;
                     return;
+                } catch (error) {
+                    window.location.assign(redirectUrl);
                 }
-
-                window.location.assign(redirectUrl);
             });
         </script>
     </head>

@@ -354,6 +354,7 @@ export default function Coupon() {
                                             icon={EditIcon}
                                             tone="success"
                                             variant="tertiary"
+                                            accessibilityLabel={`Edit ${coupon.title}`}
                                             onClick={(event) => {
                                                 event.stopPropagation(); // Prevent click from selecting the row
                                                 navigate(
@@ -365,6 +366,7 @@ export default function Coupon() {
                                             icon={DeleteIcon}
                                             variant="plain"
                                             tone="critical"
+                                            accessibilityLabel={`Delete ${coupon.title}`}
                                             onClick={(event) => {
                                                 event.stopPropagation(); // Prevent click from selecting the row
                                                 handleDeleteClick(coupon.id);

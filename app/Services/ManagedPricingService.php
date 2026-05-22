@@ -66,6 +66,8 @@ class ManagedPricingService
         $planHandle = $this->normalizePlanHandle($planName);
         $planId = $this->resolvePlanId($planHandle, null, $hasPaidSubscription, $partnerDevelopment);
         $isFree = ! $hasPaidSubscription;
+        $billingExempt = $partnerDevelopment;
+        $requiresBilling = ! $hasPaidSubscription && ! $billingExempt;
         $currentPeriodEnd = Arr::get($subscription, 'currentPeriodEnd');
 
         $shop->forceFill([
@@ -82,6 +84,9 @@ class ManagedPricingService
             'plan_handle' => $planHandle,
             'current_plan_id' => $planId,
             'is_free' => $isFree,
+            'has_paid_subscription' => $hasPaidSubscription,
+            'billing_exempt' => $billingExempt,
+            'requires_billing' => $requiresBilling,
             'subscription_id' => Arr::get($subscription, 'id'),
             'subscription_status' => Arr::get($subscription, 'status'),
             'current_period_end' => $currentPeriodEnd,

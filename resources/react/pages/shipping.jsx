@@ -177,12 +177,14 @@ export default function Shipping() {
           <Button
             variant="monochromePlain"
             icon={EditIcon}
+            accessibilityLabel={`Edit ${name || 'shipping banner'}`}
             onClick={() => navigate(`/shipbanneredit/${id}`)}
           />
           <Button
             variant="plain"
             tone="critical"
             icon={DeleteIcon}
+            accessibilityLabel={`Delete ${name || 'shipping banner'}`}
             onClick={() => {
               shopify.modal.show('delete-modal');
               setBannerToDeleteId(id);

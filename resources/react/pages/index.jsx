@@ -190,7 +190,8 @@ const [appstatues, setAppstatues] = useState(false);
                                                 variant="plain"
                                                 onClick={handleToggle1}
                                                 ariaExpanded={open1}
-                                                ariaControls="basic-collapsible"
+                                                ariaControls="about-collapsible"
+                                                accessibilityLabel="Collapse About TORO Sales Popup Notifications"
                                                 icon={CaretUpIcon}
                                             >
                                             </Button> : <Button
@@ -198,7 +199,8 @@ const [appstatues, setAppstatues] = useState(false);
                                                 onClick={handleToggle1}
                                                 variant="plain"
                                                 ariaExpanded={open1}
-                                                ariaControls="basic-collapsible"
+                                                ariaControls="about-collapsible"
+                                                accessibilityLabel="Expand About TORO Sales Popup Notifications"
                                                 icon={CaretDownIcon}
                                             >
                                             </Button>}
@@ -210,7 +212,7 @@ const [appstatues, setAppstatues] = useState(false);
                         </div>
                         <Collapsible
                             open={open1}
-                            id="basic-collapsible"
+                            id="about-collapsible"
                             transition={{ duration: "500ms", timingFunction: "ease-in-out" }}
                             expandOnPrint
                         >
@@ -240,7 +242,8 @@ const [appstatues, setAppstatues] = useState(false);
                                             variant="plain"
                                             onClick={handleToggle2}
                                             ariaExpanded={open2}
-                                            ariaControls="basic-collapsible"
+                                            ariaControls="how-it-works-collapsible"
+                                            accessibilityLabel="Collapse How it works"
                                             icon={CaretUpIcon}
                                         >
                                         </Button> : <Button
@@ -248,7 +251,8 @@ const [appstatues, setAppstatues] = useState(false);
                                             onClick={handleToggle2}
                                             variant="plain"
                                             ariaExpanded={open2}
-                                            ariaControls="basic-collapsible"
+                                            ariaControls="how-it-works-collapsible"
+                                            accessibilityLabel="Expand How it works"
                                             icon={CaretDownIcon}
                                         >
                                         </Button>}
@@ -259,7 +263,7 @@ const [appstatues, setAppstatues] = useState(false);
                         </div>
                         <Collapsible
                             open={open2}
-                            id="basic-collapsible"
+                            id="how-it-works-collapsible"
                             transition={{ duration: "500ms", timingFunction: "ease-in-out" }}
                             expandOnPrint
                         >
@@ -344,7 +348,7 @@ const [appstatues, setAppstatues] = useState(false);
                                     </Grid.Cell>
                                     <Grid.Cell columnSpan={{ xs: 6, sm: 2, md: 2, lg: 4, xl: 4 }}>
 
-                                        <img src={democouponpage} alt="" style={{ width: "100%" }} />
+                                        <img src={democouponpage} alt="TORO Sales popup notification dashboard preview" style={{ width: "100%" }} />
 
                                     </Grid.Cell>
                                 </Grid>
@@ -369,7 +373,8 @@ const [appstatues, setAppstatues] = useState(false);
                                         variant="plain"
                                         onClick={handleToggle3}
                                         ariaExpanded={open3}
-                                        ariaControls="basic-collapsible"
+                                        ariaControls="adding-popup-collapsible"
+                                        accessibilityLabel="Collapse Adding popup coupon notifications"
                                         icon={CaretUpIcon}
                                     >
                                     </Button> : <Button
@@ -377,7 +382,8 @@ const [appstatues, setAppstatues] = useState(false);
                                         onClick={handleToggle3}
                                         variant="plain"
                                         ariaExpanded={open3}
-                                        ariaControls="basic-collapsible"
+                                        ariaControls="adding-popup-collapsible"
+                                        accessibilityLabel="Expand Adding popup coupon notifications"
                                         icon={CaretDownIcon}
                                     >
                                     </Button>}
@@ -389,7 +395,7 @@ const [appstatues, setAppstatues] = useState(false);
                         </div>
                         <Collapsible
                             open={open3}
-                            id="basic-collapsible"
+                            id="adding-popup-collapsible"
                             transition={{ duration: "500ms", timingFunction: "ease-in-out" }}
                             expandOnPrint
                         >

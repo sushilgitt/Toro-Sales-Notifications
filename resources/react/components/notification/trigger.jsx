@@ -161,6 +161,8 @@ export function Triggers() {
                             {!checkedAllpage && (
                                 <>
                                     <Select
+                                        label="Page targeting rule"
+                                        labelHidden
                                         placeholder="select"
                                         options={options}
                                         onChange={handleSelectChange}
@@ -170,6 +172,8 @@ export function Triggers() {
                                         selectedpage ===
                                         "Does not match exact") && (
                                             <TextField
+                                                label="Target URL"
+                                                labelHidden
                                                 placeholder="Full URL - ex: https://domain.com"
                                                 autoComplete="off"
                                                 onChange={handleFullUrlChange}
@@ -179,6 +183,8 @@ export function Triggers() {
                                     {(selectedpage == "Contains" ||
                                         selectedpage == "Does not contain") && (
                                             <TextField
+                                                label="Target URL fragment"
+                                                labelHidden
                                                 placeholder="Part of the URL - ex: /product/102481"
                                                 autoComplete="off"
                                                 onChange={handleFullUrlChange}
@@ -191,6 +197,8 @@ export function Triggers() {
                                         selectedpage ==
                                         "Does not end with") && (
                                             <TextField
+                                                label="Target URL fragment"
+                                                labelHidden
                                                 placeholder="Part of the URL"
                                                 autoComplete="off"
                                                 onChange={handleFullUrlChange}
@@ -199,6 +207,8 @@ export function Triggers() {
                                          )}
                                     {selectedpage == "Page Contains" && ( 
                                         <TextField
+                                            label="Page content text"
+                                            labelHidden
                                             placeholder="Text inside of the website"
                                             autoComplete="off"
                                             onChange={handleFullUrlChange}
