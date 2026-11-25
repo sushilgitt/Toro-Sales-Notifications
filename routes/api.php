@@ -20,21 +20,21 @@ Route::get('/', function () {
 
 Route::get('/plan/success', [PlanController::class, 'planSuccess'])->name('plan-success');
 
-Route::get('/settings',[MainSettingController::class, 'index_settings'])->name('index.settings')->middleware('verify.shopify');
+Route::get('/settings',[MainSettingController::class, 'index_settings'])->name('index.settings')->middleware(['verify.shopify', 'ensure.billing']);
 
 Route::get('/settings/{id}',[MainSettingController::class, 'get_settings']);
-    
+
 Route::post('/update/{id}', [MainSettingController::class, 'update']);
 
 Route::delete('/destroy/{id}',[MainSettingController::class, 'destroy_settings'])->name('destroy.settings');
 
-Route::post('/settings',[MainSettingController::class, 'store_settings'])->name('store.settings')->middleware('verify.shopify');
+Route::post('/settings',[MainSettingController::class, 'store_settings'])->name('store.settings')->middleware(['verify.shopify', 'ensure.billing']);
 
 Route::post('/coupon_data', [MainSettingController::class, 'coupon_data']);
 
 Route::post('/status',[MainSettingController::class, 'status'])->name('status');
 
-Route::get('/getdatacount',[MainSettingController::class,'getdatacount'])->name('getdatacount')->middleware('verify.shopify');
+Route::get('/getdatacount',[MainSettingController::class,'getdatacount'])->name('getdatacount')->middleware(['verify.shopify', 'ensure.billing']);
 
 Route::post('/plan-select',[PlanController::class, 'planSelect'])->name('planselect')->middleware('shopify.auth');
 
@@ -45,23 +45,23 @@ Route::get('/plan/approve', [PlanController::class, 'approvePlan'])->name('plan.
 Route::get('/check-subscription', [PlanController::class, 'checkSubscription'])->name('plan.checkSubscription')->middleware('shopify.auth');
 
 //banner
-Route::post('/storebanner', [CountDownController::class, 'storebanner'])->middleware('verify.shopify');
-Route::get('/getbanner',[CountDownController::class,'getbanner'])->middleware('verify.shopify');
-Route::get('/getbannerid/{id}', [CountDownController::class, 'getbannerid'])->middleware('verify.shopify');
-Route::delete('/deletebanner/{id}',[CountDownController::class,'deletebanner'])->middleware('verify.shopify');
-Route::post('/updatebanner/{id}',[CountDownController::class,'updatebanner'])->middleware('verify.shopify');
+Route::post('/storebanner', [CountDownController::class, 'storebanner'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::get('/getbanner',[CountDownController::class,'getbanner'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::get('/getbannerid/{id}', [CountDownController::class, 'getbannerid'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::delete('/deletebanner/{id}',[CountDownController::class,'deletebanner'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::post('/updatebanner/{id}',[CountDownController::class,'updatebanner'])->middleware(['verify.shopify', 'ensure.billing']);
 
 
 //promo
 Route::post('/closePromo', [PromoController::class, 'closePromo'])->middleware('verify.shopify');
 Route::get('/getPromptdata', [PromoController::class, 'getPromptdata'])->middleware('verify.shopify');
-Route::get('/getthemefile', [ThemeController::class, 'getThemeFile'])->middleware('verify.shopify');
+Route::get('/getthemefile', [ThemeController::class, 'getThemeFile'])->middleware(['verify.shopify', 'ensure.billing']);
 
 //shipping bar
-Route::post('/shipping', [ShippingController::class, 'store'])->middleware('verify.shopify');
-Route::get('/shippingget',[ShippingController::class,'getdata'])->middleware('verify.shopify');
+Route::post('/shipping', [ShippingController::class, 'store'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::get('/shippingget',[ShippingController::class,'getdata'])->middleware(['verify.shopify', 'ensure.billing']);
 // Route::get('/shippingbanner/{id}',[ShippingController::class,'getById'])->middleware('verify.shopify');
-Route::get('/shippingbanner',[ShippingController::class,'getById'])->middleware('verify.shopify');
-Route::put('/shipping/{id}', [ShippingController::class, 'update'])->middleware('verify.shopify');
-Route::delete('/shipping/{id}', [ShippingController::class, 'destroy'])->middleware('verify.shopify');
+Route::get('/shippingbanner',[ShippingController::class,'getById'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::put('/shipping/{id}', [ShippingController::class, 'update'])->middleware(['verify.shopify', 'ensure.billing']);
+Route::delete('/shipping/{id}', [ShippingController::class, 'destroy'])->middleware(['verify.shopify', 'ensure.billing']);
 Route::get('/shop/currency', [ShippingController::class, 'getShopCurrency'])->middleware('verify.shopify');

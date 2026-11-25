@@ -14,11 +14,11 @@ class FrontEndControllr extends Controller
     {
         $shop = Auth::user();
 
-        if ($shop instanceof User && $request->routeIs('home')) {
+        if ($shop instanceof User) {
             try {
                 $billingState = $managedPricingService->syncShop($shop);
 
-                if (($billingState['requires_billing'] ?? true) && ! $request->boolean('skip_billing')) {
+                if ($billingState['requires_billing'] ?? true) {
                     $pricingUrl = $billingState['pricing_url'] ?? null;
 
                     if ($pricingUrl) {

@@ -17,6 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'webhook/app-subscriptions-update',
         ]);
+        $middleware->alias([
+            'ensure.billing' => \App\Http\Middleware\EnsureBillingPaid::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (MissingShopDomainException $exception) {
